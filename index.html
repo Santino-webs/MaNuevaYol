@@ -1,0 +1,2136 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Curso de 14 días de inglés de supervivencia para viajar a Nueva York.">
+<meta name="theme-color" content="#0a0a0a">
+<title>Ma Nueva Yol · Inglés de calle en 14 días</title>
+<style>
+/* ============================================================
+   PALETA — señalética del subte de Nueva York.
+   TODOS los colores viven acá. El media query oscuro sólo los
+   redefine: ningún color se declara únicamente ahí adentro.
+   ============================================================ */
+:root{
+  color-scheme: light dark;
+
+  /* Discos de línea (MTA) — idénticos en ambos temas, son señalética */
+  --mta-azul:    #0039a6;  /* A C E */
+  --mta-naranja: #ff6319;  /* B D F M */
+  --mta-amarillo:#fccc0a;  /* N Q R W */
+  --mta-rojo:    #ee352e;  /* 1 2 3 */
+  --mta-verde:   #00933c;  /* 4 5 6 */
+  --mta-violeta: #b933ad;  /* 7 */
+  --mta-gris:    #a7a9ac;  /* L */
+  --mta-lima:    #6cbe45;  /* G */
+
+  /* Superficies */
+  --fondo:        #f2f2f0;
+  --panel:        #ffffff;
+  --panel-2:      #e8e8e5;
+  --panel-3:      #dcdcd8;
+  --barra:        #0a0a0a;
+  --barra-txt:    #ffffff;
+
+  /* Texto */
+  --txt:          #0a0a0a;
+  --txt-2:        #4a4a48;
+  --txt-3:        #6b6b68;
+  --txt-inv:      #ffffff;
+
+  /* Bordes y foco */
+  --borde:        #0a0a0a;
+  --borde-suave:  #c4c4c0;
+  --foco:         #0039a6;
+  --foco-halo:    #ffffff;
+
+  /* Semánticos */
+  --ok:           #00701f;
+  --ok-fondo:     #d6f0dc;
+  --ok-borde:     #00701f;
+  --mal:          #b2211c;
+  --mal-fondo:    #fbdedd;
+  --mal-borde:    #b2211c;
+  --alerta:       #9a4b00;
+  --alerta-fondo: #ffeacc;
+  --emergencia:   #d31f1a;
+  --emergencia-txt:#ffffff;
+  --dato:         #4a2a86;
+  --dato-fondo:   #ece4ff;
+
+  /* Acentos de UI */
+  --acento:       #0039a6;
+  --acento-txt:   #ffffff;
+  --sombra:       0 2px 0 0 #0a0a0a;
+  --sombra-alta:  0 4px 0 0 #0a0a0a;
+  --velo:         rgba(10,10,10,.58);
+
+  /* Métricas */
+  --toque: 44px;
+  --radio: 2px;
+  --ancho: 560px;
+  --fuente: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, "Segoe UI", Arial, sans-serif;
+}
+
+@media (prefers-color-scheme: dark){
+  :root{
+    --fondo:        #0b0b0c;
+    --panel:        #17181a;
+    --panel-2:      #212327;
+    --panel-3:      #2c2f34;
+    --barra:        #000000;
+    --barra-txt:    #ffffff;
+
+    --txt:          #f4f4f2;
+    --txt-2:        #c3c5c9;
+    --txt-3:        #9b9ea4;
+    --txt-inv:      #0a0a0a;
+
+    --borde:        #6f747c;
+    --borde-suave:  #3a3d43;
+    --foco:         #7fb0ff;
+    --foco-halo:    #000000;
+
+    --ok:           #63d98a;
+    --ok-fondo:     #10301c;
+    --ok-borde:     #2f9c56;
+    --mal:          #ff8a84;
+    --mal-fondo:    #3a1413;
+    --mal-borde:    #c0413b;
+    --alerta:       #ffc06b;
+    --alerta-fondo: #38270f;
+    --emergencia:   #d92e27;
+    --emergencia-txt:#ffffff;
+    --dato:         #c9b4ff;
+    --dato-fondo:   #241a3d;
+
+    --acento:       #4d8dff;
+    --acento-txt:   #06122b;
+    --sombra:       0 2px 0 0 #000000;
+    --sombra-alta:  0 4px 0 0 #000000;
+    --velo:         rgba(0,0,0,.72);
+  }
+}
+
+*,*::before,*::after{ box-sizing:border-box; }
+html,body{ margin:0; padding:0; }
+html{ -webkit-text-size-adjust:100%; }
+body{
+  background:var(--fondo);
+  color:var(--txt);
+  font-family:var(--fuente);
+  font-size:17px;
+  line-height:1.45;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+img,svg{ max-width:100%; }
+[hidden]{ display:none !important; }
+
+/* ---- Foco visible de punta a punta ---- */
+:focus{ outline:none; }
+:focus-visible{
+  outline:3px solid var(--foco);
+  outline-offset:2px;
+  box-shadow:0 0 0 2px var(--foco-halo);
+}
+
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{
+    animation-duration:.001ms !important;
+    animation-iteration-count:1 !important;
+    transition-duration:.001ms !important;
+    scroll-behavior:auto !important;
+  }
+}
+
+/* ============================================================
+   ESTRUCTURA
+   ============================================================ */
+#app{
+  max-width:var(--ancho);
+  margin:0 auto;
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  background:var(--fondo);
+}
+
+/* Barra superior tipo cartel de andén */
+.barra{
+  position:sticky; top:0; z-index:40;
+  background:var(--barra); color:var(--barra-txt);
+  display:flex; align-items:center; gap:8px;
+  padding:6px 8px;
+  padding-top:calc(6px + env(safe-area-inset-top));
+  border-bottom:4px solid var(--mta-amarillo);
+}
+.barra h1{
+  font-size:15px; margin:0; letter-spacing:.14em; text-transform:uppercase;
+  font-weight:800; flex:1; min-width:0;
+  overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+}
+.barra-btn{
+  min-width:var(--toque); min-height:var(--toque);
+  display:inline-flex; align-items:center; justify-content:center; gap:6px;
+  background:transparent; color:var(--barra-txt);
+  border:2px solid var(--barra-txt); border-radius:var(--radio);
+  font:inherit; font-size:13px; font-weight:800; letter-spacing:.06em;
+  text-transform:uppercase; cursor:pointer; padding:0 10px;
+}
+.barra-btn:hover{ background:var(--barra-txt); color:var(--barra); }
+.barra-btn.sos{
+  background:var(--emergencia); color:var(--emergencia-txt);
+  border-color:var(--emergencia);
+}
+.barra-btn.sos:hover{ filter:brightness(1.12); background:var(--emergencia); color:var(--emergencia-txt); }
+.barra-btn .ico{ font-size:17px; line-height:1; }
+
+main{ flex:1; padding:16px 14px 96px; }
+.vista[hidden]{ display:none !important; }
+
+/* ---- Tipografía ---- */
+.kicker{
+  font-size:12px; font-weight:800; letter-spacing:.16em; text-transform:uppercase;
+  color:var(--txt-3); margin:0 0 6px;
+}
+h2{ font-size:26px; line-height:1.15; margin:0 0 8px; letter-spacing:-.02em; }
+h3{ font-size:18px; margin:0 0 8px; letter-spacing:-.01em; }
+p{ margin:0 0 12px; }
+.apagado{ color:var(--txt-2); }
+
+/* ---- Disco de línea ---- */
+.disco{
+  width:38px; height:38px; flex:0 0 38px; border-radius:50%;
+  display:inline-flex; align-items:center; justify-content:center;
+  font-weight:800; font-size:18px; color:#fff;
+  font-variant-numeric:tabular-nums;
+}
+.disco.chico{ width:28px; height:28px; flex-basis:28px; font-size:14px; }
+.disco.sobre-claro{ color:#0a0a0a; }
+
+/* ---- Tarjetas / paneles ---- */
+.panel{
+  background:var(--panel);
+  border:2px solid var(--borde);
+  border-radius:var(--radio);
+  padding:14px;
+  margin:0 0 14px;
+}
+.panel.plano{ border-color:var(--borde-suave); }
+
+/* ---- Botones ---- */
+.btn{
+  display:inline-flex; align-items:center; justify-content:center; gap:8px;
+  min-height:var(--toque); padding:10px 16px;
+  font:inherit; font-weight:800; letter-spacing:.03em;
+  background:var(--panel); color:var(--txt);
+  border:2px solid var(--borde); border-radius:var(--radio);
+  cursor:pointer; text-align:center;
+  transition:transform .08s ease, background .12s ease;
+}
+.btn:hover{ background:var(--panel-2); }
+.btn:active{ transform:translateY(2px); }
+.btn[disabled]{ opacity:.45; cursor:not-allowed; }
+.btn.primario{
+  background:var(--acento); color:var(--acento-txt); border-color:var(--acento);
+}
+.btn.primario:hover{ filter:brightness(1.08); }
+.btn.grande{
+  width:100%; font-size:19px; min-height:58px; text-transform:uppercase;
+  box-shadow:var(--sombra-alta);
+}
+.btn.bloque{ width:100%; }
+.btn.sos{ background:var(--emergencia); color:var(--emergencia-txt); border-color:var(--emergencia); }
+.fila-btns{ display:flex; gap:10px; flex-wrap:wrap; }
+.fila-btns .btn{ flex:1 1 140px; }
+
+/* ---- Métricas de inicio ---- */
+.metricas{ display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin:0 0 14px; }
+.metrica{
+  background:var(--panel); border:2px solid var(--borde); border-radius:var(--radio);
+  padding:10px 8px; text-align:center; min-width:0;
+}
+.metrica .n{ font-size:26px; font-weight:800; line-height:1; font-variant-numeric:tabular-nums; }
+.metrica .r{ font-size:11px; text-transform:uppercase; letter-spacing:.1em; color:var(--txt-2); margin-top:4px; }
+
+/* ---- Barra de progreso ---- */
+.progreso{
+  height:14px; background:var(--panel-3); border:2px solid var(--borde);
+  border-radius:var(--radio); overflow:hidden;
+}
+.progreso > i{ display:block; height:100%; background:var(--mta-verde); }
+
+/* ---- Lista de días ---- */
+.lista-dias{ list-style:none; margin:0; padding:0; }
+.dia-item{
+  display:flex; align-items:center; gap:10px; width:100%;
+  background:var(--panel); border:2px solid var(--borde-suave); border-radius:var(--radio);
+  padding:8px 10px; margin-bottom:8px; min-height:var(--toque);
+  font:inherit; color:var(--txt); text-align:left; cursor:pointer;
+}
+.dia-item:hover{ background:var(--panel-2); }
+.dia-item.actual{ border-color:var(--borde); border-width:3px; box-shadow:var(--sombra); }
+.dia-item .txt{ flex:1; min-width:0; }
+.dia-item .t{ display:block; font-weight:700; font-size:16px; }
+.dia-item .s{ display:block; font-size:12px; color:var(--txt-2); }
+.dia-item .est{ font-size:12px; font-weight:800; text-transform:uppercase; letter-spacing:.08em; color:var(--txt-3); }
+.dia-item .est.listo{ color:var(--ok); }
+
+/* ---- Pasos del día ---- */
+.pasos{ display:flex; gap:6px; margin:0 0 14px; }
+.paso{
+  flex:1; text-align:center; font-size:11px; font-weight:800;
+  text-transform:uppercase; letter-spacing:.08em;
+  padding:8px 4px; border:2px solid var(--borde-suave); border-radius:var(--radio);
+  background:var(--panel); color:var(--txt-3);
+}
+.paso[aria-current="step"]{ background:var(--barra); color:var(--barra-txt); border-color:var(--barra); }
+.paso.hecho{ color:var(--ok); border-color:var(--ok-borde); }
+
+/* ---- Tarjeta de frase ---- */
+.frase-en{
+  font-size:clamp(28px,8.5vw,40px); font-weight:800; line-height:1.1;
+  letter-spacing:-.02em; margin:0 0 10px; overflow-wrap:break-word;
+}
+.frase-pron{
+  font-size:19px; font-weight:700; color:var(--acento);
+  margin:0 0 10px; overflow-wrap:break-word;
+}
+.frase-pron .ton{ text-transform:uppercase; }
+.frase-es{ font-size:19px; margin:0 0 12px; }
+.frase-uso{
+  font-size:15px; color:var(--txt-2); border-left:4px solid var(--mta-amarillo);
+  padding-left:10px; margin:0;
+}
+.contador{ font-size:12px; font-weight:800; letter-spacing:.1em; color:var(--txt-3); text-transform:uppercase; }
+
+/* ---- Audio ---- */
+.audio-fila{ display:flex; gap:8px; flex-wrap:wrap; margin:0 0 12px; }
+.btn-audio{
+  min-height:var(--toque); min-width:var(--toque);
+  display:inline-flex; align-items:center; justify-content:center; gap:8px;
+  padding:0 14px; font:inherit; font-weight:800; font-size:14px;
+  background:var(--panel-2); color:var(--txt);
+  border:2px solid var(--borde); border-radius:var(--radio); cursor:pointer;
+}
+.btn-audio:hover{ background:var(--panel-3); }
+.btn-audio.mini{ padding:0 10px; font-size:13px; }
+.btn-audio[aria-pressed="true"]{ background:var(--barra); color:var(--barra-txt); }
+
+/* ---- Ejercicios ---- */
+.opciones{ display:grid; gap:8px; margin:0 0 12px; }
+.opcion{
+  display:flex; align-items:center; gap:10px; width:100%;
+  min-height:var(--toque); padding:12px 14px;
+  font:inherit; font-size:17px; text-align:left;
+  background:var(--panel); color:var(--txt);
+  border:2px solid var(--borde); border-radius:var(--radio); cursor:pointer;
+}
+.opcion:hover:not([disabled]){ background:var(--panel-2); }
+.opcion[disabled]{ cursor:default; }
+.opcion .marca{ font-weight:800; font-size:18px; flex:0 0 auto; }
+.opcion.ok{ background:var(--ok-fondo); border-color:var(--ok-borde); color:var(--txt); }
+.opcion.mal{ background:var(--mal-fondo); border-color:var(--mal-borde); color:var(--txt); }
+.opcion.tenue{ opacity:.5; }
+
+/* Armar frase */
+.zona-armado{
+  min-height:64px; background:var(--panel-2);
+  border:2px dashed var(--borde-suave); border-radius:var(--radio);
+  padding:8px; margin:0 0 10px;
+  display:flex; flex-wrap:wrap; gap:6px; align-content:flex-start;
+}
+.zona-banco{ display:flex; flex-wrap:wrap; gap:6px; margin:0 0 12px; }
+.ficha{
+  min-height:var(--toque); padding:8px 12px;
+  font:inherit; font-size:16px; font-weight:700;
+  background:var(--panel); color:var(--txt);
+  border:2px solid var(--borde); border-radius:var(--radio); cursor:pointer;
+}
+.ficha:hover{ background:var(--panel-2); }
+.ficha.usada{ visibility:hidden; }
+
+/* Hueco en diálogo */
+.dialogo-linea{ margin:0 0 10px; font-size:17px; }
+.dialogo-linea .quien{ font-weight:800; text-transform:uppercase; font-size:12px; letter-spacing:.1em; color:var(--txt-3); display:block; }
+.hueco{
+  display:inline-block; min-width:100px; border-bottom:3px solid var(--acento);
+  font-weight:800; color:var(--acento); text-align:center; padding:0 6px;
+}
+
+/* Feedback */
+.feedback{
+  border:2px solid var(--borde-suave); border-radius:var(--radio);
+  padding:12px; margin:0 0 12px; font-size:16px;
+}
+.feedback .titulo{ font-weight:800; display:flex; align-items:center; gap:8px; margin-bottom:4px; }
+.feedback.ok{ background:var(--ok-fondo); border-color:var(--ok-borde); }
+.feedback.ok .titulo{ color:var(--ok); }
+.feedback.mal{ background:var(--mal-fondo); border-color:var(--mal-borde); }
+.feedback.mal .titulo{ color:var(--mal); }
+
+/* ---- Simulacro ---- */
+.chat{ display:flex; flex-direction:column; gap:10px; margin:0 0 14px; }
+.burbuja{
+  max-width:88%; padding:10px 12px; border:2px solid var(--borde);
+  border-radius:var(--radio); font-size:17px;
+}
+.burbuja .pron{ display:block; font-size:14px; font-weight:700; color:var(--acento); margin-top:4px; }
+.burbuja .trad{ display:block; font-size:14px; color:var(--txt-2); margin-top:2px; }
+.burbuja.ellos{ align-self:flex-start; background:var(--panel); }
+.burbuja.vos{ align-self:flex-end; background:var(--acento); color:var(--acento-txt); border-color:var(--acento); }
+.burbuja.vos .pron{ color:var(--acento-txt); opacity:.9; }
+.burbuja.vos .trad{ color:var(--acento-txt); opacity:.85; }
+.burbuja.nota{ align-self:center; max-width:100%; background:var(--alerta-fondo); border-color:var(--alerta); font-size:15px; }
+.escena{
+  background:var(--panel-2); border-left:4px solid var(--mta-violeta);
+  padding:10px 12px; margin:0 0 14px; font-size:15px; color:var(--txt-2);
+}
+
+/* ---- Datos culturales ---- */
+.dato{
+  background:var(--dato-fondo); border:2px solid var(--dato);
+  border-radius:var(--radio); padding:12px; margin:0 0 12px; font-size:16px;
+}
+.dato .t{ font-weight:800; color:var(--dato); display:flex; gap:8px; align-items:center; margin-bottom:4px; }
+
+/* ---- Buscador ---- */
+.buscador-caja{ position:sticky; top:0; background:var(--fondo); padding:0 0 10px; z-index:5; }
+input[type="search"], input[type="text"]{
+  width:100%; min-height:50px; padding:10px 12px;
+  font:inherit; font-size:17px;
+  background:var(--panel); color:var(--txt);
+  border:3px solid var(--borde); border-radius:var(--radio);
+}
+.resultado{
+  background:var(--panel); border:2px solid var(--borde-suave); border-radius:var(--radio);
+  padding:10px 12px; margin:0 0 8px;
+}
+.resultado .en{ font-size:18px; font-weight:800; }
+.resultado .pr{ font-size:14px; font-weight:700; color:var(--acento); }
+.resultado .es{ font-size:15px; color:var(--txt-2); }
+.resultado .de{ font-size:11px; text-transform:uppercase; letter-spacing:.08em; color:var(--txt-3); margin-top:4px; }
+.resultado-fila{ display:flex; gap:10px; align-items:flex-start; }
+.resultado-fila .txt{ flex:1; min-width:0; }
+mark{ background:var(--mta-amarillo); color:#0a0a0a; padding:0 2px; }
+
+/* ---- Emergencia ---- */
+.vista-sos{ }
+.sos-cabecera{
+  background:var(--emergencia); color:var(--emergencia-txt);
+  border:3px solid var(--emergencia); border-radius:var(--radio);
+  padding:14px; margin:0 0 14px;
+}
+.sos-cabecera h2{ margin:0 0 6px; font-size:24px; }
+.sos-911{ font-size:54px; font-weight:800; line-height:1; letter-spacing:-.03em; }
+.sos-frase{
+  background:var(--panel); border:2px solid var(--borde);
+  border-left:8px solid var(--emergencia);
+  border-radius:var(--radio); padding:12px; margin:0 0 10px;
+}
+.sos-frase .en{ font-size:22px; font-weight:800; line-height:1.15; }
+.sos-frase .pr{ font-size:16px; font-weight:700; color:var(--acento); margin:4px 0; }
+.sos-frase .es{ font-size:15px; color:var(--txt-2); }
+
+/* ---- Pie de navegación fijo ---- */
+.pie{
+  position:fixed; left:0; right:0; bottom:0; z-index:30;
+  background:var(--barra); border-top:4px solid var(--mta-amarillo);
+  padding:6px 8px; padding-bottom:calc(6px + env(safe-area-inset-bottom));
+}
+.pie-int{ max-width:var(--ancho); margin:0 auto; display:flex; gap:8px; }
+.pie .btn{ flex:1; }
+
+/* ---- Modal ---- */
+.velo{
+  position:fixed; inset:0; background:var(--velo); z-index:60;
+  display:flex; align-items:center; justify-content:center; padding:16px;
+}
+.modal{
+  background:var(--panel); border:3px solid var(--borde); border-radius:var(--radio);
+  padding:16px; max-width:420px; width:100%;
+}
+
+/* ---- Varios ---- */
+.chips{ display:flex; flex-wrap:wrap; gap:6px; margin:0 0 12px; }
+.chip{
+  font-size:12px; font-weight:800; text-transform:uppercase; letter-spacing:.08em;
+  padding:6px 10px; border:2px solid var(--borde-suave); border-radius:var(--radio);
+  background:var(--panel-2); color:var(--txt-2);
+}
+.chip.viva{ background:var(--mta-amarillo); color:#0a0a0a; border-color:#0a0a0a; }
+.sr{
+  position:absolute; width:1px; height:1px; padding:0; margin:-1px;
+  overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; border:0;
+}
+.franja{
+  height:8px; display:flex; margin:0 0 14px; border:2px solid var(--borde); border-radius:var(--radio); overflow:hidden;
+}
+.franja > i{ flex:1; }
+</style>
+</head>
+<body>
+<div id="app">
+  <header class="barra">
+    <span class="disco chico" id="barraDisco" style="background:var(--mta-verde)" aria-hidden="true">14</span>
+    <h1 id="barraTitulo">Ma Nueva Yol</h1>
+    <button class="barra-btn" id="btnBuscar" type="button" aria-label="Buscar frases">
+      <svg class="ico" width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="8.5" cy="8.5" r="5.5"/><line x1="12.8" y1="12.8" x2="17.5" y2="17.5"/></svg>
+    </button>
+    <button class="barra-btn sos" id="btnSOS" type="button" aria-label="Modo emergencia">
+      <span class="ico" aria-hidden="true">&#9888;</span> SOS
+    </button>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <section class="vista" id="vInicio" aria-labelledby="tInicio"></section>
+    <section class="vista" id="vDia" hidden aria-labelledby="tDia"></section>
+    <section class="vista" id="vBuscar" hidden aria-label="Buscador de frases"></section>
+    <section class="vista vista-sos" id="vSOS" hidden aria-label="Modo emergencia"></section>
+  </main>
+
+  <nav class="pie" id="pie" aria-label="Navegación principal">
+    <div class="pie-int" id="pieInt"></div>
+  </nav>
+</div>
+<div id="modales" aria-live="polite"></div>
+<div id="avisos" class="sr" role="status" aria-live="polite"></div>
+<script>
+"use strict";
+
+/* ============================================================================
+   CURSO — TODO el contenido vive acá. Para agregar o sacar frases tocá
+   únicamente esta constante: la lógica no sabe nada del contenido.
+   Cada frase: { en, pron, es, uso }
+   Cada día:   { dia, titulo, linea, color, intro, frases, datos, dialogo }
+   ========================================================================= */
+const CURSO = [
+{
+  dia:1, titulo:"Cortesía y supervivencia", linea:"1", color:"--mta-rojo",
+  intro:"Con estas doce frases ya podés entrar a cualquier lugar sin quedar mudo. No hace falta que armes oraciones: en Nueva York la cortesía corta es la normal.",
+  frases:[
+    { en:"Excuse me", pron:"eks-KIÚS mi", es:"Permiso / disculpame", uso:"La llave maestra. Sirve para pasar entre gente, para llamar al mozo y para arrancar cualquier pregunta. Si decís sólo esto ya te miran y te escuchan." },
+    { en:"Please", pron:"PLIIS", es:"Por favor", uso:"Pegalo al final de todo lo que pidas. Sin please suena a orden y acá se nota mucho." },
+    { en:"Thank you", pron:"ZÁNK iu", es:"Gracias", uso:"Se usa muchísimo más que acá: al bajar del bus, al recibir el vuelto, al salir de un negocio sin comprar nada." },
+    { en:"Thank you so much", pron:"ZÁNK iu so MACH", es:"Muchísimas gracias", uso:"Cuando alguien se tomó trabajo por vos: te acompañó, te buscó algo, te explicó el camino." },
+    { en:"You're welcome", pron:"iur UÉL-com", es:"De nada", uso:"Te lo van a decir a vos todo el tiempo. Contestalo cuando alguien te agradezca." },
+    { en:"I'm sorry", pron:"áim SÓ-ri", es:"Perdón / lo siento", uso:"Si chocaste a alguien, si te metiste en el medio, si te equivocaste. Un sorry desarma cualquier situación." },
+    { en:"Yes, please", pron:"IÉS pliis", es:"Sí, por favor", uso:"La respuesta completa cuando te ofrecen algo. Un yes pelado suena cortante." },
+    { en:"No, thank you", pron:"NÓU ZÁNK iu", es:"No, gracias", uso:"Para rechazar sin quedar mal: un volante en la calle, una segunda porción, alguien que te ofrece ayuda que no necesitás." },
+    { en:"Hi, how are you?", pron:"JÁI jau ar IÚ", es:"Hola, ¿cómo estás?", uso:"Es un saludo, no una pregunta de verdad. Nadie espera que cuentes cómo estás." },
+    { en:"Good, thanks. And you?", pron:"GUD zanks. and IÚ", es:"Bien, gracias. ¿Y vos?", uso:"La respuesta automática al how are you. Contestá esto siempre, aunque estés cansado." },
+    { en:"Have a good day", pron:"jav a gud DÉI", es:"Que tengas un buen día", uso:"Para despedirte de cualquiera: el del kiosco, el taxista, el del hotel." },
+    { en:"See you", pron:"si IÚ", es:"Nos vemos / chau", uso:"Despedida corta y relajada. Sirve con cualquiera que vayas a volver a ver." }
+  ],
+  datos:[
+    { t:"Cómo leer la pronunciación", d:"Lo que está en MAYÚSCULAS es la sílaba que va más fuerte. La z (en ZÁNK) se dice con la lengua entre los dientes; si te sale una s común, igual te entienden. La sh es la de show. La y es la de jugo en inglés: lengua pegada al paladar." },
+    { t:"Sonreír cuenta", d:"En Nueva York el trato en la calle es rápido pero amable. Un excuse me con la cara tranquila abre más puertas que una frase larga y perfecta." }
+  ],
+  dialogo:{ personaje:"Una señora en la vereda", escena:"Vas caminando por la vereda y necesitás pasar. Hay gente parada sacando fotos.",
+    turnos:[
+      { ellos:{ en:"(Está parada justo en el medio, de espaldas)", pron:"", es:"" },
+        opciones:[
+          { en:"Excuse me", pron:"eks-KIÚS mi", es:"Permiso", ok:true, reaccion:"Se corre enseguida: Oh, sorry! (¡Ay, perdón!)" },
+          { en:"Please", pron:"PLIIS", es:"Por favor", ok:false, reaccion:"Te mira confundida: please what? Please sola no pide paso, acompaña un pedido." },
+          { en:"Thank you", pron:"ZÁNK iu", es:"Gracias", ok:false, reaccion:"Te sonríe pero no se mueve. Le agradeciste algo que todavía no hizo." }
+        ]},
+      { ellos:{ en:"Oh, I'm sorry! Go ahead.", pron:"óu, áim SÓ-ri. góu a-JÉD", es:"¡Ay, perdón! Pasá." },
+        opciones:[
+          { en:"Thank you", pron:"ZÁNK iu", es:"Gracias", ok:true, reaccion:"Perfecto. Te contesta: You're welcome." },
+          { en:"I'm sorry", pron:"áim SÓ-ri", es:"Perdón", ok:false, reaccion:"Se ríe: no está mal, pero el que se disculpó fue ella. Acá va un gracias." },
+          { en:"Yes, please", pron:"IÉS pliis", es:"Sí, por favor", ok:false, reaccion:"Se queda esperando: no le pediste nada, sólo te dejó pasar." }
+        ]},
+      { ellos:{ en:"Hi, how are you?", pron:"JÁI jau ar IÚ", es:"Hola, ¿cómo estás?" },
+        opciones:[
+          { en:"Good, thanks. And you?", pron:"GUD zanks. and IÚ", es:"Bien, gracias. ¿Y vos?", ok:true, reaccion:"Clavado. Te contesta: I'm good, thanks!" },
+          { en:"You're welcome", pron:"iur UÉL-com", es:"De nada", ok:false, reaccion:"Se queda dura un segundo. De nada no contesta un saludo." },
+          { en:"No, thank you", pron:"NÓU ZÁNK iu", es:"No, gracias", ok:false, reaccion:"Levanta las cejas: le dijiste que no a un hola." }
+        ]},
+      { ellos:{ en:"Great. Have a good day!", pron:"GRÉIT. jav a gud DÉI", es:"Bárbaro. ¡Que tengas un buen día!" },
+        opciones:[
+          { en:"Thank you, you too. See you", pron:"ZÁNK iu, iu TÚU. si IÚ", es:"Gracias, igualmente. Nos vemos", ok:true, reaccion:"Cierre perfecto: you too es igualmente y se usa todo el tiempo." },
+          { en:"Please", pron:"PLIIS", es:"Por favor", ok:false, reaccion:"No encaja. La despedida se contesta con otra despedida." },
+          { en:"I'm sorry", pron:"áim SÓ-ri", es:"Perdón", ok:false, reaccion:"Te mira raro y se va. No pasó nada malo." }
+        ]}
+    ]}
+},
+{
+  dia:2, titulo:"Cuando no entendés nada", linea:"2", color:"--mta-rojo",
+  intro:"Este es el día más importante del curso. No vas a entender casi nada de lo que te digan, y está bien: lo único que necesitás es saber pedir que lo repitan más despacio sin congelarte.",
+  frases:[
+    { en:"I don't speak English", pron:"ái dont spiik ÍN-glish", es:"No hablo inglés", uso:"Decilo de entrada y bajan la velocidad al toque. No es una vergüenza: en Nueva York lo escuchan cien veces por día." },
+    { en:"I speak a little English", pron:"ái spiik a LÍ-tel ÍN-glish", es:"Hablo un poco de inglés", uso:"Mejor que la anterior si querés intentar. Avisa que hablen simple, pero no cierra la conversación." },
+    { en:"Do you speak Spanish?", pron:"du iu spiik SPÁ-nish", es:"¿Hablás español?", uso:"En Nueva York la respuesta es que sí muchísimas veces. Preguntá siempre antes de sufrir." },
+    { en:"I don't understand", pron:"ái dont an-ders-TÁND", es:"No entiendo", uso:"Tu frase de emergencia número uno. Decila sin miedo, todas las veces que haga falta." },
+    { en:"Can you repeat that, please?", pron:"can iu ri-PÍIT dat pliis", es:"¿Me lo repetís, por favor?", uso:"Cuando escuchaste pero no agarraste nada. Casi siempre lo repiten más claro." },
+    { en:"Can you speak slower, please?", pron:"can iu spiik SLÓU-er pliis", es:"¿Podés hablar más despacio?", uso:"La más útil de todas. El problema casi nunca es tu inglés: es la velocidad." },
+    { en:"What does that mean?", pron:"uát das dat MIIN", es:"¿Qué significa eso?", uso:"Para una palabra suelta que te frenó. Señalá el cartel o repetí la palabra y preguntá esto." },
+    { en:"How do you say this in English?", pron:"jáu du iu SÉI dis in ÍN-glish", es:"¿Cómo se dice esto en inglés?", uso:"Señalando la cosa. Es la forma más rápida de aprender en la calle." },
+    { en:"Can you write it down?", pron:"can iu RÁIT it daun", es:"¿Me lo escribís?", uso:"Salvavidas para direcciones, precios y horarios. Leído lo entendés mucho mejor que escuchado." },
+    { en:"One moment, please", pron:"uán MÓU-ment pliis", es:"Un momento, por favor", uso:"Para ganar tiempo mientras buscás la plata, el pasaporte o la frase en el teléfono." },
+    { en:"Is there someone who speaks Spanish?", pron:"is der SÁM-uan ju spiiks SPÁ-nish", es:"¿Hay alguien que hable español?", uso:"En hoteles, hospitales, negocios grandes y aeropuertos casi siempre hay alguien." },
+    { en:"I need help", pron:"ái niid JÉLP", es:"Necesito ayuda", uso:"Corta y clarísima. Funciona en cualquier situación, desde perderte hasta una urgencia." }
+  ],
+  datos:[
+    { t:"El teléfono es parte de tu inglés", d:"Mostrar la pantalla con la dirección escrita o con el traductor no es hacer trampa: es lo que hace todo el mundo. Combinalo con Can you write it down? y resolvés casi cualquier cosa." },
+    { t:"No pidas perdón por no saber", d:"Nadie espera que hables bien. Decir I don't speak English con tono tranquilo funciona mejor que disculparte tres veces." }
+  ],
+  dialogo:{ personaje:"Un empleado de un negocio", escena:"Entrás a un local a preguntar algo y el empleado te habla rapidísimo.",
+    turnos:[
+      { ellos:{ en:"Hi! Areyoulookingforsomethingspecifictoday?", pron:"JÁI! ar-iu-LU-kin-for-sam-zin-spe-SÍ-fic-tu-dei", es:"¡Hola! ¿Buscás algo en particular hoy?" },
+        opciones:[
+          { en:"I'm sorry, I don't understand", pron:"áim SÓ-ri, ái dont an-ders-TÁND", es:"Perdón, no entiendo", ok:true, reaccion:"Frena y baja un cambio: Oh, no problem! (¡Ningún problema!)" },
+          { en:"Yes, please", pron:"IÉS pliis", es:"Sí, por favor", ok:false, reaccion:"Sigue hablando igual de rápido y ahora estás más perdido. Nunca digas que sí a algo que no entendiste." },
+          { en:"Thank you", pron:"ZÁNK iu", es:"Gracias", ok:false, reaccion:"Te sonríe y se queda esperando. No avanzaste nada." }
+        ]},
+      { ellos:{ en:"No problem. Are you looking for something?", pron:"nóu PRÓ-blem. ar iu LU-kin for SÁM-zin", es:"Ningún problema. ¿Buscás algo?" },
+        opciones:[
+          { en:"Can you speak slower, please?", pron:"can iu spiik SLÓU-er pliis", es:"¿Podés hablar más despacio?", ok:true, reaccion:"Asiente y repite despacísimo, palabra por palabra." },
+          { en:"I don't speak English", pron:"ái dont spiik ÍN-glish", es:"No hablo inglés", ok:false, reaccion:"No está mal, pero se corta la charla: se va a buscar a otro. Pedir despacio te deja seguir." },
+          { en:"What does that mean?", pron:"uát das dat MIIN", es:"¿Qué significa eso?", ok:false, reaccion:"Te pregunta what word? No señalaste ninguna palabra en particular." }
+        ]},
+      { ellos:{ en:"Sure. Are... you... looking... for... something?", pron:"SHUR. ar iu LU-kin for SÁM-zin", es:"Claro. ¿Buscás... algo?" },
+        opciones:[
+          { en:"Do you speak Spanish?", pron:"du iu spiik SPÁ-nish", es:"¿Hablás español?", ok:true, reaccion:"Te contesta: A little! Un poco, y llama a una compañera que sí habla." },
+          { en:"One moment, please", pron:"uán MÓU-ment pliis", es:"Un momento, por favor", ok:false, reaccion:"Espera con cara de paciencia. Ganaste tiempo pero no resolviste nada." },
+          { en:"See you", pron:"si IÚ", es:"Nos vemos", ok:false, reaccion:"Te saluda pensando que te vas. Te fuiste sin lo que viniste a buscar." }
+        ]},
+      { ellos:{ en:"A little. My coworker speaks Spanish. One second!", pron:"a LÍ-tel. mái KÓU-uor-ker spiiks SPÁ-nish. uán SÉ-cond", es:"Un poco. Mi compañera habla español. ¡Un segundo!" },
+        opciones:[
+          { en:"Thank you so much", pron:"ZÁNK iu so MACH", es:"Muchísimas gracias", ok:true, reaccion:"Se tomó trabajo por vos, este es el gracias grande. Bien usado." },
+          { en:"I need help", pron:"ái niid JÉLP", es:"Necesito ayuda", ok:false, reaccion:"Ya te está ayudando. Suena a que no lo escuchaste." },
+          { en:"I don't understand", pron:"ái dont an-ders-TÁND", es:"No entiendo", ok:false, reaccion:"Vuelve a empezar de cero, justo cuando ya estaba resuelto." }
+        ]}
+    ]}
+},
+{
+  dia:3, titulo:"Números, precios y horarios", linea:"3", color:"--mta-rojo",
+  intro:"Los números son lo que más rápido te van a decir y lo que más caro te sale no entender. La trampa más común es confundir quince con cincuenta.",
+  frases:[
+    { en:"How much is it?", pron:"jáu MACH is it", es:"¿Cuánto cuesta?", uso:"La pregunta más usada del viaje. Sirve para todo: una remera, un café, un viaje en taxi." },
+    { en:"How much is this?", pron:"jáu MACH is dis", es:"¿Cuánto cuesta esto?", uso:"Igual que la anterior pero señalando la cosa. Si señalás, no necesitás saber cómo se llama." },
+    { en:"That's too expensive", pron:"dats tu eks-PÉN-siv", es:"Es demasiado caro", uso:"En negocios de precio fijo no se regatea, pero en ferias y puestos de la calle sí funciona." },
+    { en:"Do you take cards?", pron:"du iu téik CARDS", es:"¿Aceptan tarjeta?", uso:"Preguntalo antes de pedir. Quedan pocos lugares que sean sólo efectivo, pero existen." },
+    { en:"Cash or card?", pron:"CASH or CARD", es:"¿Efectivo o tarjeta?", uso:"Te lo van a preguntar a vos. Contestá card o cash, una sola palabra alcanza." },
+    { en:"Can I get a receipt?", pron:"can ái guet a ri-SÍIT", es:"¿Me das el recibo?", uso:"Guardá los recibos: sin recibo no podés devolver nada en Estados Unidos." },
+    { en:"Fifteen or fifty?", pron:"fif-TÍIN or FÍF-ti", es:"¿Quince o cincuenta?", uso:"La confusión clásica. Los que terminan en -teen llevan la fuerza al final; los que terminan en -ty, al principio. Ante la duda, preguntá esto." },
+    { en:"Can you write the price?", pron:"can iu ráit de PRÁIS", es:"¿Me escribís el precio?", uso:"Cuando el número se te escapa. Nadie se ofende y evitás pagar de más." },
+    { en:"What time is it?", pron:"uát TÁIM is it", es:"¿Qué hora es?", uso:"Se le pregunta a cualquiera en la calle. Es una de las preguntas más normales que hay." },
+    { en:"What time do you open?", pron:"uát TÁIM du iu ÓU-pen", es:"¿A qué hora abren?", uso:"Muchos lugares abren más temprano que acá, a las siete u ocho de la mañana." },
+    { en:"What time do you close?", pron:"uát TÁIM du iu CLÓUS", es:"¿A qué hora cierran?", uso:"Clave para museos y negocios: suelen cerrar antes de lo que imaginás, salvo los que abren toda la noche." },
+    { en:"Is it free?", pron:"is it FRÍI", es:"¿Es gratis?", uso:"Para el Wi-Fi, para entrar a un lugar, para el agua. Ojo: free es gratis, no libre." }
+  ],
+  datos:[
+    { t:"-teen contra -ty", d:"Trece a diecinueve terminan en -teen con la fuerza atrás: thirTEEN, fifTEEN, nineTEEN. Las decenas terminan en -ty con la fuerza adelante: THIRty, FIFty, NINEty. Si dudás entre 15 y 50, preguntá Fifteen or fifty? y que te lo escriban." },
+    { t:"El precio de la etiqueta no es el que pagás", d:"En Nueva York los impuestos se suman en la caja, no están en la etiqueta. A la ropa y a casi todo se le agrega alrededor de 8,875 %. Si dice 20, en la caja van a ser unos 21,78." },
+    { t:"Los números que más vas a escuchar", d:"one uán · two TÚU · three ZRÍI · four FOR · five FÁIV · six SIKS · seven SÉ-ven · eight ÉIT · nine NÁIN · ten TEN · twenty TUÉN-ti · thirty ZÉR-ti · fifty FÍF-ti · one hundred uán JÁN-dred" }
+  ],
+  dialogo:{ personaje:"El vendedor de un puesto de la calle", escena:"Parás en un puesto de remeras cerca de Times Square y te gusta una.",
+    turnos:[
+      { ellos:{ en:"Hey! You like that one?", pron:"JÉI! iu láik dat UÁN", es:"¡Ey! ¿Te gusta esa?" },
+        opciones:[
+          { en:"Yes. How much is this?", pron:"IÉS. jáu MACH is dis", es:"Sí. ¿Cuánto cuesta esto?", ok:true, reaccion:"Directo al grano, así se habla acá." },
+          { en:"Is it free?", pron:"is it FRÍI", es:"¿Es gratis?", ok:false, reaccion:"Se ríe fuerte: Nothing is free in New York, my friend." },
+          { en:"What time is it?", pron:"uát TÁIM is it", es:"¿Qué hora es?", ok:false, reaccion:"Te mira la remera en la mano y te da la hora. Perdiste el turno." }
+        ]},
+      { ellos:{ en:"Fifteen.", pron:"fif-TÍIN", es:"Quince.", nota:"¿Escuchaste fifTEEN o FIFty? La fuerza va al final: son 15." },
+        opciones:[
+          { en:"Fifteen or fifty?", pron:"fif-TÍIN or FÍF-ti", es:"¿Quince o cincuenta?", ok:true, reaccion:"Levanta un dedo y aclara: One five. Fifteen. Quince." },
+          { en:"That's too expensive", pron:"dats tu eks-PÉN-siv", es:"Es demasiado caro", ok:false, reaccion:"Te ofrece otra más barata, pero todavía no sabés si te dijo 15 o 50." },
+          { en:"Thank you so much", pron:"ZÁNK iu so MACH", es:"Muchísimas gracias", ok:false, reaccion:"Te envuelve la remera. Cuidado: aceptaste sin saber el precio." }
+        ]},
+      { ellos:{ en:"One five. Fifteen dollars.", pron:"uán FÁIV. fif-TÍIN DÓ-lars", es:"Uno cinco. Quince dólares." },
+        opciones:[
+          { en:"Do you take cards?", pron:"du iu téik CARDS", es:"¿Aceptan tarjeta?", ok:true, reaccion:"Te muestra el aparatito: Cards, tap, everything." },
+          { en:"I don't understand", pron:"ái dont an-ders-TÁND", es:"No entiendo", ok:false, reaccion:"Ya te lo aclaró dos veces y te lo deletreó. Acá ya entendiste." },
+          { en:"What time do you close?", pron:"uát TÁIM du iu CLÓUS", es:"¿A qué hora cierran?", ok:false, reaccion:"Te contesta la hora pero la remera sigue sin comprarse." }
+        ]},
+      { ellos:{ en:"Cash or card?", pron:"CASH or CARD", es:"¿Efectivo o tarjeta?" },
+        opciones:[
+          { en:"Card, please. Can I get a receipt?", pron:"CARD pliis. can ái guet a ri-SÍIT", es:"Tarjeta, por favor. ¿Me das el recibo?", ok:true, reaccion:"Te pasa el ticket. Sin recibo no hay cambio ni devolución." },
+          { en:"Yes, please", pron:"IÉS pliis", es:"Sí, por favor", ok:false, reaccion:"Te pregunta de nuevo: te dio dos opciones, hay que elegir una." },
+          { en:"Cash or card?", pron:"CASH or CARD", es:"¿Efectivo o tarjeta?", ok:false, reaccion:"Se ríe: I'm asking you! Te devolvió la pregunta." }
+        ]}
+    ]}
+},
+{
+  dia:4, titulo:"Aeropuerto y migraciones", linea:"A", color:"--mta-azul",
+  intro:"Migraciones es el momento que más miedo da y el más fácil de preparar: siempre preguntan lo mismo, cuatro o cinco cosas, y esperan respuestas cortas. No hace falta ninguna oración larga.",
+  frases:[
+    { en:"Here is my passport", pron:"jir is mái PÁS-port", es:"Acá está mi pasaporte", uso:"Entregalo con la frase y ya arrancaste bien. Sacate los anteojos y la gorra antes." },
+    { en:"I'm here on vacation", pron:"áim jir on va-KÉI-shon", es:"Vengo de vacaciones", uso:"La respuesta a What's the purpose of your trip? (¿a qué venís?). Es la respuesta esperada si sos turista." },
+    { en:"Ten days", pron:"TEN déis", es:"Diez días", uso:"Respuesta a How long are you staying? (¿cuánto te quedás?). Decí sólo el número y la palabra days." },
+    { en:"I'm staying at a hotel in Manhattan", pron:"áim STÉI-in at a jou-TÉL in man-JÁ-tan", es:"Me quedo en un hotel en Manhattan", uso:"Respuesta a Where are you staying? Tené la dirección a mano en el teléfono o en papel." },
+    { en:"This is the address", pron:"dis is di a-DRÉS", es:"Esta es la dirección", uso:"Mostrando la pantalla o el papel. Resuelve la pregunta sin que tengas que leer nada en voz alta." },
+    { en:"I'm traveling with my family", pron:"áim TRÁ-ve-lin uid mái FÁ-mi-li", es:"Viajo con mi familia", uso:"Si viajás solo: I'm traveling alone (áim TRÁ-ve-lin a-LÓUN)." },
+    { en:"Nothing to declare", pron:"NÁ-zin tu di-CLÉR", es:"Nada para declarar", uso:"En aduana. Ojo: no se puede entrar comida fresca, carne, ni fruta. El mate y la yerba sí, declarándolos." },
+    { en:"Where is baggage claim?", pron:"uér is BÁ-guich CLÉIM", es:"¿Dónde se retiran las valijas?", uso:"Baggage claim es la cinta de equipaje. Es el cartel que vas a buscar apenas salgas." },
+    { en:"My suitcase didn't arrive", pron:"mái SÚT-keis DÍ-dent a-RÁIV", es:"Mi valija no llegó", uso:"Andá al mostrador que dice Baggage Service con esta frase y el ticket del equipaje." },
+    { en:"Where is the taxi stand?", pron:"uér is de TÁK-si stand", es:"¿Dónde está la parada de taxis?", uso:"Nunca aceptes a alguien que te ofrece viaje adentro del aeropuerto: eso es ilegal y carísimo. Buscá la fila oficial." },
+    { en:"Where can I get a SIM card?", pron:"uér can ái guet a SIM card", es:"¿Dónde consigo un chip?", uso:"En el aeropuerto hay locales. También podés preguntar por Wi-Fi: Is there free Wi-Fi?" }
+  ],
+  datos:[
+    { t:"Lo que te van a preguntar en migraciones", d:"Purpose of your trip? (a qué venís) · How long are you staying? (cuánto te quedás) · Where are you staying? (dónde parás) · Are you traveling alone? (venís solo). Respuestas de dos o tres palabras. No hace falta explicar nada de más." },
+    { t:"Falso amigo peligroso", d:"Embarrassed NO es embarazada: significa avergonzado. Si estás embarazada se dice I'm pregnant (áim PREG-nant). Decir I'm embarrassed en un control médico confunde feo." },
+    { t:"Exit no es éxito", d:"Exit es salida. En el aeropuerto y en el subte seguí siempre los carteles que dicen EXIT para salir a la calle." }
+  ],
+  dialogo:{ personaje:"El oficial de migraciones", escena:"Llegaste a JFK. Es tu turno en la ventanilla. El oficial no sonríe, pero es lo normal: no significa nada.",
+    turnos:[
+      { ellos:{ en:"Next! Passport, please.", pron:"NEKST! PÁS-port pliis", es:"¡El siguiente! Pasaporte, por favor." },
+        opciones:[
+          { en:"Here is my passport", pron:"jir is mái PÁS-port", es:"Acá está mi pasaporte", ok:true, reaccion:"Lo toma y lo escanea sin decir nada. Todo bien." },
+          { en:"I don't speak English", pron:"ái dont spiik ÍN-glish", es:"No hablo inglés", ok:false, reaccion:"Te repite Passport más fuerte. Te pidió un objeto, no una charla." },
+          { en:"Nothing to declare", pron:"NÁ-zin tu di-CLÉR", es:"Nada para declarar", ok:false, reaccion:"Te mira fijo: eso es para la aduana, más adelante." }
+        ]},
+      { ellos:{ en:"What's the purpose of your trip?", pron:"uáts de PÉR-pos of iur TRIP", es:"¿Cuál es el motivo de tu viaje?" },
+        opciones:[
+          { en:"I'm here on vacation", pron:"áim jir on va-KÉI-shon", es:"Vengo de vacaciones", ok:true, reaccion:"Asiente y sigue tecleando. Es exactamente lo que esperaba escuchar." },
+          { en:"Ten days", pron:"TEN déis", es:"Diez días", ok:false, reaccion:"Levanta la vista: te preguntó a qué venís, no cuánto te quedás. Esa respuesta viene después." },
+          { en:"I'm traveling with my family", pron:"áim TRÁ-ve-lin uid mái FÁ-mi-li", es:"Viajo con mi familia", ok:false, reaccion:"Vuelve a preguntar lo mismo. Con quién viajás no es el motivo del viaje." }
+        ]},
+      { ellos:{ en:"How long are you staying?", pron:"jáu LONG ar iu STÉI-in", es:"¿Cuánto tiempo te quedás?" },
+        opciones:[
+          { en:"Ten days", pron:"TEN déis", es:"Diez días", ok:true, reaccion:"Anota. Respuesta corta y clara, así se contesta acá." },
+          { en:"I'm here on vacation", pron:"áim jir on va-KÉI-shon", es:"Vengo de vacaciones", ok:false, reaccion:"Te corta: How long? Quiere un número." },
+          { en:"This is the address", pron:"dis is di a-DRÉS", es:"Esta es la dirección", ok:false, reaccion:"Te hace un gesto para que guardes el teléfono. Todavía no preguntó eso." }
+        ]},
+      { ellos:{ en:"Where are you staying?", pron:"uér ar iu STÉI-in", es:"¿Dónde te vas a quedar?" },
+        opciones:[
+          { en:"I'm staying at a hotel in Manhattan. This is the address", pron:"áim STÉI-in at a jou-TÉL in man-JÁ-tan. dis is di a-DRÉS", es:"En un hotel en Manhattan. Esta es la dirección", ok:true, reaccion:"Mira la pantalla, asiente y sella el pasaporte: Enjoy your stay." },
+          { en:"Ten days", pron:"TEN déis", es:"Diez días", ok:false, reaccion:"Repite la pregunta más despacio. Quiere un lugar, no un tiempo." },
+          { en:"I need help", pron:"ái niid JÉLP", es:"Necesito ayuda", ok:false, reaccion:"Frunce el ceño y llama a un supervisor. No pidas ayuda si no la necesitás." }
+        ]},
+      { ellos:{ en:"Enjoy your stay. Welcome to the United States.", pron:"en-YÓI iur STÉI. UÉL-com tu de iu-NÁI-ted STÉITS", es:"Que disfrutes tu estadía. Bienvenido a Estados Unidos." },
+        opciones:[
+          { en:"Thank you", pron:"ZÁNK iu", es:"Gracias", ok:true, reaccion:"Listo, estás adentro. Ahora buscá el cartel de baggage claim." },
+          { en:"Here is my passport", pron:"jir is mái PÁS-port", es:"Acá está mi pasaporte", ok:false, reaccion:"Ya te lo devolvió. Guardalo y seguí." },
+          { en:"I'm sorry", pron:"áim SÓ-ri", es:"Perdón", ok:false, reaccion:"Te mira con cara de qué hiciste. No pidas perdón sin motivo en un control." }
+        ]}
+    ]}
+},
+{
+  dia:5, titulo:"El subte de Nueva York", linea:"7", color:"--mta-violeta",
+  intro:"El subte es la forma más rápida de moverte y el lugar donde más fácil te equivocás. Con tres ideas alcanza: para dónde va (uptown o downtown), si para en todas (local) o saltea estaciones (express), y dónde te tenés que cambiar.",
+  frases:[
+    { en:"Where is the subway?", pron:"uér is de SÁB-uei", es:"¿Dónde está el subte?", uso:"Subway es el subte. Buscá los carteles redondos verdes con la M o la escalera que baja." },
+    { en:"Uptown or downtown?", pron:"AP-taun or DÁUN-taun", es:"¿Para el norte o para el sur?", uso:"La pregunta clave antes de bajar. Cada entrada suele servir para un solo sentido y a veces no se puede cruzar abajo." },
+    { en:"Is this train uptown?", pron:"is dis TRÉIN AP-taun", es:"¿Este tren va para el norte?", uso:"Preguntáselo a cualquiera en el andén. Te van a contestar con la mano y una palabra." },
+    { en:"Does this train stop at Times Square?", pron:"das dis tréin STOP at táims SKUÉR", es:"¿Este tren para en Times Square?", uso:"Cambiá el nombre de la estación por la que necesites. Es la frase que más vas a usar abajo." },
+    { en:"Which line goes to Brooklyn?", pron:"UÍCH láin góus tu BRÚK-lin", es:"¿Qué línea va a Brooklyn?", uso:"Las líneas son letras y números: A, C, E, 1, 2, 3. Cada una tiene su color." },
+    { en:"Is this the express or the local?", pron:"is dis di eks-PRÉS or de LÓU-cal", es:"¿Este es el express o el local?", uso:"El local para en todas. El express saltea muchísimas y te puede dejar a treinta cuadras." },
+    { en:"Where do I transfer?", pron:"uér du ái TRÁNS-fer", es:"¿Dónde me tengo que cambiar?", uso:"Transfer es la combinación. Adentro del subte no se paga de nuevo." },
+    { en:"How many stops?", pron:"jáu MÉ-ni STOPS", es:"¿Cuántas estaciones?", uso:"Te contestan con un número y contás sola. Mucho más fácil que entender el nombre de cada parada." },
+    { en:"I'm going the wrong way", pron:"áim GÓU-in de RONG uéi", es:"Me estoy yendo para el lado equivocado", uso:"Pasa siempre. Bajate en la próxima y cruzá al otro andén." },
+    { en:"Do I tap here?", pron:"du ái TAP jir", es:"¿Apoyo la tarjeta acá?", uso:"En los molinetes se apoya la tarjeta o el celular en el lector amarillo. Tap es apoyar." },
+    { en:"Excuse me, this is my stop", pron:"eks-KIÚS mi, dis is mái STOP", es:"Permiso, me bajo acá", uso:"El vagón va lleno y estás lejos de la puerta. Decilo fuerte y se corren." }
+  ],
+  datos:[
+    { t:"Uptown es hacia el norte", d:"Uptown va hacia arriba en el mapa (números de calle que suben: 42, 59, 86). Downtown va hacia abajo (números que bajan hacia el 1 y después el sur de Manhattan). Si estás en la calle 34 y querés ir a la 59, tomás uptown." },
+    { t:"Express y local", d:"En el cartel del andén y en el mapa, las estaciones blancas son de express y las negras sólo local. Si tu parada no es express y te subís a uno, te lleva de largo. Ante la duda, tomá el local." },
+    { t:"Cómo se paga", d:"Apoyás la tarjeta sin contacto o el celular en el lector OMNY del molinete. La tarifa es la misma para cualquier distancia y la transferencia dentro del subte no se paga aparte." }
+  ],
+  dialogo:{ personaje:"Un pasajero en el andén", escena:"Estás en la estación de la calle 14 y querés llegar a Times Square, en la calle 42. Se acerca un tren.",
+    turnos:[
+      { ellos:{ en:"(Un señor espera al lado tuyo mirando el teléfono)", pron:"", es:"" },
+        opciones:[
+          { en:"Excuse me, is this train uptown?", pron:"eks-KIÚS mi, is dis TRÉIN AP-taun", es:"Perdón, ¿este tren va para el norte?", ok:true, reaccion:"Levanta la vista: Yeah, uptown. Sí, va para arriba." },
+          { en:"Where is the subway?", pron:"uér is de SÁB-uei", es:"¿Dónde está el subte?", ok:false, reaccion:"Se ríe y señala el piso: You're in it. Ya estás adentro." },
+          { en:"How many stops?", pron:"jáu MÉ-ni STOPS", es:"¿Cuántas estaciones?", ok:false, reaccion:"Te pregunta To where? No dijiste a dónde vas." }
+        ]},
+      { ellos:{ en:"Yeah, this side is uptown. Where are you going?", pron:"IÉA, dis SÁID is AP-taun. uér ar iu GÓU-in", es:"Sí, este lado va para el norte. ¿A dónde vas?" },
+        opciones:[
+          { en:"Does this train stop at Times Square?", pron:"das dis tréin STOP at táims SKUÉR", es:"¿Este tren para en Times Square?", ok:true, reaccion:"Mira el cartel del andén: This one is express. It skips it. Este es express y la saltea." },
+          { en:"Uptown or downtown?", pron:"AP-taun or DÁUN-taun", es:"¿Norte o sur?", ok:false, reaccion:"Te lo acaba de decir. Se queda esperando que digas tu destino." },
+          { en:"I'm going the wrong way", pron:"áim GÓU-in de RONG uéi", es:"Voy para el lado equivocado", ok:false, reaccion:"Te dice Not yet! Todavía no te subiste a nada." }
+        ]},
+      { ellos:{ en:"That one is the express. It doesn't stop there.", pron:"dat UÁN is di eks-PRÉS. it DÁ-sent stop der", es:"Ese es el express. No para ahí." },
+        opciones:[
+          { en:"Which line goes to Times Square?", pron:"UÍCH láin góus tu táims SKUÉR", es:"¿Qué línea va a Times Square?", ok:true, reaccion:"Señala el andén: Take the 1. It's the local. Tomá el 1, que es el local." },
+          { en:"Thank you, see you", pron:"ZÁNK iu, si IÚ", es:"Gracias, nos vemos", ok:false, reaccion:"Te saluda, pero te quedaste sin saber cuál tomar." },
+          { en:"Do I tap here?", pron:"du ái TAP jir", es:"¿Apoyo acá?", ok:false, reaccion:"Señala atrás: ya pasaste el molinete, eso fue antes." }
+        ]},
+      { ellos:{ en:"Take the 1, it's the local. Three stops.", pron:"téik de UÁN, its de LÓU-cal. ZRÍI STOPS", es:"Tomá el 1, que es el local. Tres estaciones." },
+        opciones:[
+          { en:"Thank you so much", pron:"ZÁNK iu so MACH", es:"Muchísimas gracias", ok:true, reaccion:"Te dice No problem y vuelve al teléfono. Ya sabés qué tomar y cuánto falta." },
+          { en:"Where do I transfer?", pron:"uér du ái TRÁNS-fer", es:"¿Dónde me cambio?", ok:false, reaccion:"Te dice You don't. No hace falta cambiarse, es directo." },
+          { en:"That's too expensive", pron:"dats tu eks-PÉN-siv", es:"Es muy caro", ok:false, reaccion:"Se ríe: no habló de plata en ningún momento." }
+        ]}
+    ]}
+},
+{
+  dia:6, titulo:"Taxi, bus y apps de viaje", linea:"B", color:"--mta-naranja",
+  intro:"Arriba de un auto sos vos y el chofer, sin carteles que te ayuden. Con seis frases manejás todo el viaje: subir, decir a dónde vas, pagar y bajar.",
+  frases:[
+    { en:"Are you free?", pron:"ar iu FRÍI", es:"¿Está libre?", uso:"A un taxi amarillo parado. Si tiene el número del techo prendido, está libre." },
+    { en:"To this address, please", pron:"tu dis a-DRÉS pliis", es:"A esta dirección, por favor", uso:"Mostrale la pantalla del teléfono mientras lo decís. Es la forma más segura de no terminar en otro barrio." },
+    { en:"How much is it to JFK?", pron:"jáu MACH is it tu yéi-ef-KÉI", es:"¿Cuánto sale hasta JFK?", uso:"Preguntá antes de subir. Entre JFK y Manhattan hay tarifa fija, más peajes y propina." },
+    { en:"Can I pay by card?", pron:"can ái PÉI bái CARD", es:"¿Puedo pagar con tarjeta?", uso:"Los taxis amarillos tienen que aceptar tarjeta. Si te dicen que el aparato no anda, insistí o bajate." },
+    { en:"Can you stop here, please?", pron:"can iu STOP jir pliis", es:"¿Podés parar acá?", uso:"Decilo media cuadra antes. Si es en la esquina: at the corner (at de CÓR-ner)." },
+    { en:"Keep the change", pron:"KIIP de CHÉINCH", es:"Quedate con el vuelto", uso:"Una forma rápida de dejar propina en efectivo. En taxi se deja entre 15 y 20 por ciento." },
+    { en:"Can you open the trunk?", pron:"can iu ÓU-pen de TRANK", es:"¿Podés abrir el baúl?", uso:"Trunk es el baúl. Con valijas, esta frase te ahorra el forcejeo." },
+    { en:"Are you Michael?", pron:"ar iu MÁI-kel", es:"¿Sos Michael?", uso:"Con apps de viaje: chequeá el nombre y la patente antes de subir. Nunca subas sin confirmar." },
+    { en:"Does this bus go downtown?", pron:"das dis BAS góu DÁUN-taun", es:"¿Este colectivo va para el sur?", uso:"Al chofer, desde la puerta. Los buses paran cada dos o tres cuadras." },
+    { en:"Can you tell me when we get there?", pron:"can iu TEL mi uén ui GUET der", es:"¿Me avisás cuando lleguemos?", uso:"Sirve en bus y en taxi. Casi siempre te avisan de buena gana." },
+    { en:"I'm in a hurry", pron:"áim in a JÁ-ri", es:"Estoy apurado", uso:"Úsala poco y con buen tono. En el tránsito de Manhattan no hace milagros." }
+  ],
+  datos:[
+    { t:"Propina también arriba del auto", d:"En taxi y en apps se deja entre 15 y 20 por ciento. La maquinita te ofrece botones con porcentajes: tocá uno y listo. No dejar nada se nota." },
+    { t:"Amarillo, verde y apps", d:"El taxi amarillo levanta en la calle en Manhattan. Los verdes trabajan arriba de la 96 y en los otros barrios. Las apps te dan el precio antes de subir, que es la opción más cómoda si no querés hablar." },
+    { t:"Nunca aceptes que te ofrezcan viaje", d:"Si alguien se te acerca en el aeropuerto o en la calle ofreciéndote un taxi, decí No, thank you y seguí. Los legales esperan en la fila o los pedís por app." }
+  ],
+  dialogo:{ personaje:"El taxista", escena:"Salís del hotel con la valija y parás un taxi amarillo para ir al aeropuerto.",
+    turnos:[
+      { ellos:{ en:"(El taxi frena y baja la ventanilla)", pron:"", es:"" },
+        opciones:[
+          { en:"Are you free? Can you open the trunk?", pron:"ar iu FRÍI? can iu ÓU-pen de TRANK", es:"¿Está libre? ¿Podés abrir el baúl?", ok:true, reaccion:"Abre el baúl desde adentro: Sure, get in." },
+          { en:"Keep the change", pron:"KIIP de CHÉINCH", es:"Quedate con el vuelto", ok:false, reaccion:"Te mira sin entender. Todavía no hubo viaje ni plata." },
+          { en:"I'm in a hurry", pron:"áim in a JÁ-ri", es:"Estoy apurado", ok:false, reaccion:"Te pregunta Where to? Apurado para dónde. Falta lo principal." }
+        ]},
+      { ellos:{ en:"Where are you going?", pron:"uér ar iu GÓU-in", es:"¿A dónde vas?" },
+        opciones:[
+          { en:"To JFK, please. How much is it to JFK?", pron:"tu yéi-ef-KÉI pliis. jáu MACH is it tu yéi-ef-KÉI", es:"A JFK, por favor. ¿Cuánto sale hasta JFK?", ok:true, reaccion:"Te contesta: Flat rate, seventy, plus tolls and tip. Tarifa fija de setenta, más peajes y propina." },
+          { en:"To this address, please", pron:"tu dis a-DRÉS pliis", es:"A esta dirección, por favor", ok:false, reaccion:"Te pide ver la pantalla, pero el aeropuerto no es una dirección: se dice el nombre." },
+          { en:"Does this bus go downtown?", pron:"das dis BAS góu DÁUN-taun", es:"¿Este bus va al sur?", ok:false, reaccion:"Se ríe: This is a taxi, not a bus." }
+        ]},
+      { ellos:{ en:"Flat rate, seventy dollars, plus tolls and tip.", pron:"flat RÉIT, SÉ-ven-ti DÓ-lars, plas TOLS and TIP", es:"Tarifa fija: setenta dólares, más peajes y propina." },
+        opciones:[
+          { en:"OK. Can I pay by card?", pron:"ou-KÉI. can ái PÉI bái CARD", es:"Bien. ¿Puedo pagar con tarjeta?", ok:true, reaccion:"Señala la maquinita de atrás: Yes, card is fine." },
+          { en:"That's too expensive", pron:"dats tu eks-PÉN-siv", es:"Es demasiado caro", ok:false, reaccion:"Se encoge de hombros: It's the city rate. La tarifa a JFK la fija la ciudad, no se negocia." },
+          { en:"Can you stop here, please?", pron:"can iu STOP jir pliis", es:"¿Podés parar acá?", ok:false, reaccion:"Te mira por el espejo: todavía no arrancó." }
+        ]},
+      { ellos:{ en:"Yes, card is fine. Which terminal?", pron:"IÉS, card is FÁIN. uích TÉR-mi-nal", es:"Sí, tarjeta está bien. ¿Qué terminal?" },
+        opciones:[
+          { en:"Terminal four, please", pron:"TÉR-mi-nal FOR pliis", es:"Terminal cuatro, por favor", ok:true, reaccion:"Arranca. Tené el número de terminal a mano antes de subir: siempre lo preguntan." },
+          { en:"I don't understand", pron:"ái dont an-ders-TÁND", es:"No entiendo", ok:false, reaccion:"Te lo repite despacio, pero la respuesta está en tu pasaje: es un número." },
+          { en:"Are you free?", pron:"ar iu FRÍI", es:"¿Está libre?", ok:false, reaccion:"Se ríe: ya estás arriba del auto." }
+        ]},
+      { ellos:{ en:"Here we are. Seventy-five fifty on the screen.", pron:"jir ui AR. SÉ-ven-ti fáiv FÍF-ti on de SKRÍIN", es:"Llegamos. Setenta y cinco con cincuenta en la pantalla." },
+        opciones:[
+          { en:"Thank you. Keep the change", pron:"ZÁNK iu. KIIP de CHÉINCH", es:"Gracias. Quedate con el vuelto", ok:true, reaccion:"Te baja la valija contento. Con tarjeta, tocá uno de los botones de propina." },
+          { en:"Can I get a receipt? I'm in a hurry", pron:"can ái guet a ri-SÍIT? áim in a JÁ-ri", es:"¿Me das el recibo? Estoy apurado", ok:false, reaccion:"Te da el recibo, pero no le dejaste propina y se nota." },
+          { en:"How much is it to JFK?", pron:"jáu MACH is it tu yéi-ef-KÉI", es:"¿Cuánto sale hasta JFK?", ok:false, reaccion:"Señala la pantalla: ya llegaste, el precio está ahí." }
+        ]}
+    ]}
+},
+{
+  dia:7, titulo:"Repaso 1", linea:"L", color:"--mta-gris", repaso:[1,2,3,4,5,6],
+  intro:"Hoy no entra nada nuevo. Se repasa todo lo de los primeros seis días: cortesía, pedir que repitan, números, migraciones, subte y taxi. Terminás con un simulacro que mezcla todo.",
+  frases:[],
+  datos:[
+    { t:"Por qué un día sin contenido nuevo", d:"Repetir lo que ya viste, un par de días después, es lo que hace que una frase te salga sola cuando estés parado en la calle. Un día de repaso vale más que dos de frases nuevas." },
+    { t:"Las cinco que tienen que salirte dormido", d:"Excuse me · I don't understand · Can you speak slower, please? · How much is it? · Thank you. Con esas cinco sobrevivís un día entero." }
+  ],
+  dialogo:{ personaje:"Una empleada de información turística", escena:"Primera mañana en Nueva York. Entrás a un centro de información en Penn Station a preguntar cómo llegar al hotel.",
+    turnos:[
+      { ellos:{ en:"Good morning! How can I help you?", pron:"gud MÓR-nin! jáu can ái JÉLP iu", es:"¡Buen día! ¿En qué te puedo ayudar?" },
+        opciones:[
+          { en:"Good morning. I speak a little English. I need help", pron:"gud MÓR-nin. ái spiik a LÍ-tel ÍN-glish. ái niid JÉLP", es:"Buen día. Hablo un poco de inglés. Necesito ayuda", ok:true, reaccion:"Baja la velocidad al instante: Of course, take your time." },
+          { en:"How much is it?", pron:"jáu MACH is it", es:"¿Cuánto cuesta?", ok:false, reaccion:"Te pregunta How much is what? No dijiste de qué hablás." },
+          { en:"Nothing to declare", pron:"NÁ-zin tu di-CLÉR", es:"Nada para declarar", ok:false, reaccion:"Se ríe: eso era en el aeropuerto, ayer." }
+        ]},
+      { ellos:{ en:"Sure! Where do you need to go?", pron:"SHUR! uér du iu NIID tu góu", es:"¡Claro! ¿A dónde necesitás ir?" },
+        opciones:[
+          { en:"To this address, please. Which line goes there?", pron:"tu dis a-DRÉS pliis. UÍCH láin góus der", es:"A esta dirección. ¿Qué línea va hasta ahí?", ok:true, reaccion:"Mira la pantalla y marca el mapa: Take the 1 uptown, four stops." },
+          { en:"Do you take cards?", pron:"du iu téik CARDS", es:"¿Aceptan tarjeta?", ok:false, reaccion:"Te aclara que la información es gratis, pero seguís sin saber cómo llegar." },
+          { en:"What time do you close?", pron:"uát TÁIM du iu CLÓUS", es:"¿A qué hora cierran?", ok:false, reaccion:"Te da el horario. Perdiste el turno de preguntar lo que importa." }
+        ]},
+      { ellos:{ en:"Takethe1uptownfourstopsandtransferat42nd.", pron:"téik-de-uán-AP-taun-for-stops-and-TRÁNS-fer-at-for-ti-SÉ-cond", es:"Tomá el 1 hacia el norte, cuatro estaciones, y cambiá en la 42." },
+        opciones:[
+          { en:"Can you speak slower, please?", pron:"can iu spiik SLÓU-er pliis", es:"¿Podés hablar más despacio?", ok:true, reaccion:"Se disculpa y lo repite separando cada palabra." },
+          { en:"Yes, please", pron:"IÉS pliis", es:"Sí, por favor", ok:false, reaccion:"Te da un folleto y sigue. Dijiste que sí a algo que no entendiste." },
+          { en:"You're welcome", pron:"iur UÉL-com", es:"De nada", ok:false, reaccion:"Te mira confundida: no te agradeció nada todavía." }
+        ]},
+      { ellos:{ en:"Sorry! Take... the... 1... uptown. Four stops.", pron:"SÓ-ri! téik de UÁN AP-taun. FOR STOPS", es:"¡Perdón! Tomá el 1 hacia el norte. Cuatro estaciones." },
+        opciones:[
+          { en:"Can you write it down?", pron:"can iu RÁIT it daun", es:"¿Me lo escribís?", ok:true, reaccion:"Te lo anota en el folleto y te marca la estación con una cruz." },
+          { en:"Is it free?", pron:"is it FRÍI", es:"¿Es gratis?", ok:false, reaccion:"Te explica la tarifa del subte, pero la anotación te servía más." },
+          { en:"I'm going the wrong way", pron:"áim GÓU-in de RONG uéi", es:"Voy para el lado equivocado", ok:false, reaccion:"Te mira preocupada: todavía no saliste de la estación." }
+        ]},
+      { ellos:{ en:"Here you go. Have a good day!", pron:"jir iu GÓU. jav a gud DÉI", es:"Acá tenés. ¡Que tengas un buen día!" },
+        opciones:[
+          { en:"Thank you so much. You too!", pron:"ZÁNK iu so MACH. iu TÚU", es:"Muchísimas gracias. ¡Igualmente!", ok:true, reaccion:"Cierre perfecto. Ya sabés entrar, pedir, no entender y salir con la información." },
+          { en:"Excuse me", pron:"eks-KIÚS mi", es:"Permiso", ok:false, reaccion:"Se da vuelta pensando que necesitás algo más." },
+          { en:"No, thank you", pron:"NÓU ZÁNK iu", es:"No, gracias", ok:false, reaccion:"Le rechazaste el papel que acaba de escribirte." }
+        ]}
+    ]}
+},
+{
+  dia:8, titulo:"Café y comida rápida", linea:"D", color:"--mta-naranja",
+  intro:"En el mostrador todo pasa en veinte segundos y te van a hacer dos o tres preguntas seguidas. Si sabés las preguntas de antemano, no hay manera de trabarse.",
+  frases:[
+    { en:"For here or to go?", pron:"for JIR or tu GÓU", es:"¿Para acá o para llevar?", uso:"Te lo van a preguntar siempre. Contestá For here o To go, dos palabras." },
+    { en:"To go, please", pron:"tu GÓU pliis", es:"Para llevar, por favor", uso:"Si te quedás: For here, please (for JIR pliis)." },
+    { en:"A coffee, please", pron:"a CÓ-fi pliis", es:"Un café, por favor", uso:"Si querés con leche: with milk (uid MILK). Ojo que el café americano viene grande y flojo." },
+    { en:"A small one", pron:"a SMOL uán", es:"Uno chico", uso:"Los tamaños son small, medium (MÍ-diam) y large (LARCH). Acá el chico es como nuestro grande." },
+    { en:"With milk, no sugar", pron:"uid MILK, nóu SHÚ-gar", es:"Con leche, sin azúcar", uso:"Las combinaciones se dicen así de simple, sin armar oraciones." },
+    { en:"This one, please", pron:"DIS uán pliis", es:"Este, por favor", uso:"Señalando la vitrina. Es la frase que te salva de no saber cómo se llama nada." },
+    { en:"That's all, thank you", pron:"dats OL, ZÁNK iu", es:"Eso es todo, gracias", uso:"Para cerrar el pedido cuando te preguntan si querés algo más." },
+    { en:"Anything else?", pron:"É-ni-zin ELS", es:"¿Algo más?", uso:"Te lo preguntan a vos. Contestá That's all o pedí lo que falte." },
+    { en:"What do you recommend?", pron:"uát du iu re-co-MÉND", es:"¿Qué me recomendás?", uso:"Funciona bárbaro y te saca del apuro cuando no entendés el menú." },
+    { en:"Can I have a bag?", pron:"can ái JAV a BAG", es:"¿Me das una bolsa?", uso:"En muchos lugares la bolsa se cobra unos centavos y no te la dan si no la pedís." },
+    { en:"Where is the bathroom?", pron:"uér is de BÁZ-rum", es:"¿Dónde está el baño?", uso:"Bathroom o restroom. En muchos locales es sólo para clientes y a veces hay que pedir el código." }
+  ],
+  datos:[
+    { t:"For here or to go", d:"Es la pregunta fija de cualquier café o local de comida rápida. No significa nada más que si te quedás o te lo llevás, pero dicha rápido suena a una sola palabra: forHIREorTOgo." },
+    { t:"Propina también en el mostrador", d:"La maquinita se da vuelta y te muestra botones de 15, 18 y 20 por ciento, incluso para un café. No estás obligado: podés tocar No tip y no pasa nada." },
+    { t:"Pedir señalando es válido", d:"Señalar la vitrina con This one, please es normal y nadie te juzga. Mucha gente que vive ahí hace exactamente eso." }
+  ],
+  dialogo:{ personaje:"La chica del mostrador", escena:"Entrás a un café a la mañana. Hay fila atrás tuyo y todo pasa rápido.",
+    turnos:[
+      { ellos:{ en:"Hi! What can I get you?", pron:"JÁI! uát can ái GUET iu", es:"¡Hola! ¿Qué te doy?" },
+        opciones:[
+          { en:"A coffee, please. A small one", pron:"a CÓ-fi pliis. a SMOL uán", es:"Un café, por favor. Uno chico", ok:true, reaccion:"Anota enseguida: Small coffee, got it." },
+          { en:"I don't understand", pron:"ái dont an-ders-TÁND", es:"No entiendo", ok:false, reaccion:"Te repite más despacio, pero la fila se impacienta. Esta pregunta ya la sabías." },
+          { en:"How much is it?", pron:"jáu MACH is it", es:"¿Cuánto cuesta?", ok:false, reaccion:"Te pregunta How much is what? Todavía no pediste nada." }
+        ]},
+      { ellos:{ en:"Milk and sugar?", pron:"MILK and SHÚ-gar", es:"¿Leche y azúcar?" },
+        opciones:[
+          { en:"With milk, no sugar", pron:"uid MILK, nóu SHÚ-gar", es:"Con leche, sin azúcar", ok:true, reaccion:"Perfecto: dos datos en tres palabras, sin armar ninguna oración." },
+          { en:"Yes, please", pron:"IÉS pliis", es:"Sí, por favor", ok:false, reaccion:"Te pone las dos cosas. Si no querés azúcar, hay que decirlo." },
+          { en:"What do you recommend?", pron:"uát du iu re-co-MÉND", es:"¿Qué me recomendás?", ok:false, reaccion:"Se ríe: es tu café, no hay nada que recomendar ahí." }
+        ]},
+      { ellos:{ en:"Anything else?", pron:"É-ni-zin ELS", es:"¿Algo más?" },
+        opciones:[
+          { en:"This one, please. That's all, thank you", pron:"DIS uán pliis. dats OL, ZÁNK iu", es:"Este, por favor. Eso es todo, gracias", ok:true, reaccion:"Agarra la medialuna que señalaste y cierra el pedido." },
+          { en:"Can I have a bag?", pron:"can ái JAV a BAG", es:"¿Me das una bolsa?", ok:false, reaccion:"Te da la bolsa, pero todavía no cerraste el pedido y la fila crece." },
+          { en:"For here or to go?", pron:"for JIR or tu GÓU", es:"¿Para acá o para llevar?", ok:false, reaccion:"Te mira raro: esa pregunta la hace ella, no vos." }
+        ]},
+      { ellos:{ en:"For here or to go?", pron:"for JIR or tu GÓU", es:"¿Para acá o para llevar?" },
+        opciones:[
+          { en:"To go, please", pron:"tu GÓU pliis", es:"Para llevar, por favor", ok:true, reaccion:"Te lo pone en vaso de cartón con tapa. Bien resuelto." },
+          { en:"Yes, please", pron:"IÉS pliis", es:"Sí, por favor", ok:false, reaccion:"Te vuelve a preguntar. Te dio dos opciones: hay que elegir una." },
+          { en:"Where is the bathroom?", pron:"uér is de BÁZ-rum", es:"¿Dónde está el baño?", ok:false, reaccion:"Te señala el fondo, pero el café queda esperando en el mostrador." }
+        ]},
+      { ellos:{ en:"That's four seventy-five. Card is fine.", pron:"dats FOR SÉ-ven-ti fáiv. card is FÁIN", es:"Son cuatro con setenta y cinco. Con tarjeta está bien." },
+        opciones:[
+          { en:"Thank you. Have a good day", pron:"ZÁNK iu. jav a gud DÉI", es:"Gracias. Que tengas un buen día", ok:true, reaccion:"Apoyás la tarjeta, elegís propina en la pantalla y saliste en veinte segundos." },
+          { en:"Fifteen or fifty?", pron:"fif-TÍIN or FÍF-ti", es:"¿Quince o cincuenta?", ok:false, reaccion:"Te mira sin entender: dijo cuatro con setenta y cinco." },
+          { en:"That's too expensive", pron:"dats tu eks-PÉN-siv", es:"Es demasiado caro", ok:false, reaccion:"Se encoge de hombros. El precio del café no se negocia." }
+        ]}
+    ]}
+},
+{
+  dia:9, titulo:"Restaurante", linea:"F", color:"--mta-naranja",
+  intro:"Sentarte a comer tiene un guion fijo: te ubican, pedís, comés, pedís la cuenta y dejás propina. Lo único que puede salir feo es la alergia y la propina, así que esas dos van de memoria.",
+  frases:[
+    { en:"A table for two, please", pron:"a TÉI-bel for TÚU pliis", es:"Una mesa para dos, por favor", uso:"Cambiá el número según cuántos sean. Esperá que te ubiquen: no te sientes solo." },
+    { en:"How long is the wait?", pron:"jáu LONG is de UÉIT", es:"¿Cuánto hay que esperar?", uso:"Te contestan en minutos. Muchos lugares te piden el teléfono y te mandan un mensaje." },
+    { en:"Can I see the menu?", pron:"can ái SÍI de MÉ-niu", es:"¿Me traés el menú?", uso:"Muchos lugares tienen un código QR en la mesa en vez de carta de papel." },
+    { en:"I'm allergic to peanuts", pron:"áim a-LÉR-yic tu PÍ-nats", es:"Soy alérgico al maní", uso:"Cambiá peanuts por lo tuyo: shellfish (mariscos), nuts (frutos secos), gluten, dairy (lácteos). Decilo siempre, aunque creas que no hace falta." },
+    { en:"No onions, please", pron:"nóu Ó-nions pliis", es:"Sin cebolla, por favor", uso:"Sacar ingredientes es de lo más normal acá. No es ser complicado." },
+    { en:"I'll have this one", pron:"áil JAV dis uán", es:"Voy a pedir este", uso:"Señalando el menú. Te ahorra pronunciar nombres de platos que no conocés." },
+    { en:"Water, please", pron:"UÓ-ter pliis", es:"Agua, por favor", uso:"El agua de la canilla es gratis y viene con hielo. Si la querés sin hielo: no ice (nóu ÁIS)." },
+    { en:"Can I have the check, please?", pron:"can ái JAV de CHEK pliis", es:"¿Me traés la cuenta?", uso:"La cuenta no llega sola: hay que pedirla. Check es la cuenta, no el cheque." },
+    { en:"Can we split the bill?", pron:"can ui SPLIT de BIL", es:"¿Podemos dividir la cuenta?", uso:"Dividir entre varias tarjetas es normal y lo hacen sin problema." },
+    { en:"Is the tip included?", pron:"is de TIP in-CLÚ-ded", es:"¿La propina está incluida?", uso:"En grupos grandes a veces ya viene sumada y decís gratuity included. Fijate antes de dejar más." },
+    { en:"It was delicious", pron:"it uas di-LÍ-shos", es:"Estuvo riquísimo", uso:"Se dice al final y cae siempre bien. Es la forma más fácil de quedar bien sin hablar mucho." }
+  ],
+  datos:[
+    { t:"La propina no es opcional", d:"En restaurantes con mozo se deja entre 18 y 20 por ciento del total antes de impuestos. No es un premio: es la mayor parte del sueldo del mozo. Dejar menos del 15 se lee como que atendieron mal." },
+    { t:"Cómo calcularla rápido", d:"Mirá el impuesto que figura en la cuenta (alrededor del 8,9 por ciento) y duplicalo: eso da casi 18 por ciento. O directamente sumá el 20 dividiendo el total por cinco." },
+    { t:"Falso amigo peligroso", d:"Constipated NO es constipado: significa estreñido. Si estás resfriado se dice I have a cold (ái jav a CÓULD). Y molest no es molestar, es acosar: para molestar se dice bother (BÁ-der)." }
+  ],
+  dialogo:{ personaje:"El mozo", escena:"Noche en un restaurante del West Village. Son dos y no reservaron.",
+    turnos:[
+      { ellos:{ en:"Good evening! How many?", pron:"gud ÍV-nin! jáu MÉ-ni", es:"¡Buenas noches! ¿Cuántos son?" },
+        opciones:[
+          { en:"A table for two, please", pron:"a TÉI-bel for TÚU pliis", es:"Una mesa para dos, por favor", ok:true, reaccion:"Agarra dos cartas: Right this way. Por acá." },
+          { en:"I'll have this one", pron:"áil JAV dis uán", es:"Voy a pedir este", ok:false, reaccion:"Te mira sin carta en la mano. Todavía no te sentaste." },
+          { en:"Can I have the check, please?", pron:"can ái JAV de CHEK pliis", es:"¿Me traés la cuenta?", ok:false, reaccion:"Se ríe: That was fast! Recién llegaste." }
+        ]},
+      { ellos:{ en:"Great. Anything to drink?", pron:"GRÉIT. É-ni-zin tu DRINK", es:"Perfecto. ¿Algo para tomar?" },
+        opciones:[
+          { en:"Water, please", pron:"UÓ-ter pliis", es:"Agua, por favor", ok:true, reaccion:"Trae una jarra con hielo. El agua de la canilla no se cobra." },
+          { en:"Is the tip included?", pron:"is de TIP in-CLÚ-ded", es:"¿La propina está incluida?", ok:false, reaccion:"Te dice que lo veas al final. Todavía no hay cuenta." },
+          { en:"It was delicious", pron:"it uas di-LÍ-shos", es:"Estuvo riquísimo", ok:false, reaccion:"Levanta una ceja: no comiste nada todavía." }
+        ]},
+      { ellos:{ en:"Are you ready to order?", pron:"ar iu RÉ-di tu OR-der", es:"¿Están listos para pedir?" },
+        opciones:[
+          { en:"I'll have this one. I'm allergic to peanuts", pron:"áil JAV dis uán. áim a-LÉR-yic tu PÍ-nats", es:"Voy a pedir este. Soy alérgico al maní", ok:true, reaccion:"Lo anota y lo repite en voz alta: No peanuts, got it. I'll tell the kitchen." },
+          { en:"I'll have this one", pron:"áil JAV dis uán", es:"Voy a pedir este", ok:false, reaccion:"Toma el pedido, pero no avisaste la alergia. Eso se dice siempre al pedir, no después." },
+          { en:"How long is the wait?", pron:"jáu LONG is de UÉIT", es:"¿Cuánto hay que esperar?", ok:false, reaccion:"Te dice que depende de lo que pidas. Esa pregunta era en la puerta." }
+        ]},
+      { ellos:{ en:"How was everything?", pron:"jáu uas É-vri-zin", es:"¿Cómo estuvo todo?" },
+        opciones:[
+          { en:"It was delicious. Can I have the check, please?", pron:"it uas di-LÍ-shos. can ái JAV de CHEK pliis", es:"Estuvo riquísimo. ¿Me traés la cuenta?", ok:true, reaccion:"Vuelve con la cuenta en dos minutos. La cuenta no llega sola: hay que pedirla." },
+          { en:"No onions, please", pron:"nóu Ó-nions pliis", es:"Sin cebolla, por favor", ok:false, reaccion:"Te mira el plato vacío. Eso se pedía antes." },
+          { en:"A table for two, please", pron:"a TÉI-bel for TÚU pliis", es:"Una mesa para dos", ok:false, reaccion:"Se ríe: ya estás sentado y terminaste de comer." }
+        ]},
+      { ellos:{ en:"Here's the check. No rush.", pron:"jirs de CHEK. nóu RASH", es:"Acá está la cuenta. Sin apuro." },
+        opciones:[
+          { en:"Is the tip included? Can we split the bill?", pron:"is de TIP in-CLÚ-ded? can ui SPLIT de BIL", es:"¿La propina está incluida? ¿Podemos dividirla?", ok:true, reaccion:"Te dice Not included, and yes, I can split it. Dejás 18 a 20 por ciento y listo." },
+          { en:"Thank you. See you", pron:"ZÁNK iu. si IÚ", es:"Gracias. Nos vemos", ok:false, reaccion:"Se va, pero no chequeaste la propina ni pagaste. Irse sin dejar propina es un problema serio acá." },
+          { en:"That's too expensive", pron:"dats tu eks-PÉN-siv", es:"Es demasiado caro", ok:false, reaccion:"Se pone incómodo. En un restaurante los precios no se discuten al final." }
+        ]}
+    ]}
+},
+{
+  dia:10, titulo:"Compras, impuestos y devoluciones", linea:"N", color:"--mta-amarillo",
+  intro:"Comprar es fácil; lo que confunde es que el precio de la etiqueta nunca es el que pagás y que sin recibo no devolvés nada.",
+  frases:[
+    { en:"I'm just looking, thank you", pron:"áim yast LÚ-kin, ZÁNK iu", es:"Sólo estoy mirando, gracias", uso:"La respuesta a Can I help you? cuando querés que te dejen tranquilo. No es maleducado." },
+    { en:"Do you have this in a medium?", pron:"du iu JAV dis in a MÍ-diam", es:"¿Tenés esto en talle medio?", uso:"Los talles son small, medium, large. En zapatillas el número es distinto del nuestro: preguntá." },
+    { en:"Can I try it on?", pron:"can ái TRÁI it on", es:"¿Me lo puedo probar?", uso:"Te van a dar un número de prendas y a indicarte el probador." },
+    { en:"Where is the fitting room?", pron:"uér is de FÍ-tin rum", es:"¿Dónde está el probador?", uso:"También se dice dressing room. Suele estar al fondo y con alguien controlando." },
+    { en:"Do you have a bigger size?", pron:"du iu JAV a BÍ-guer sáis", es:"¿Tenés un talle más grande?", uso:"Para más chico: a smaller size (a SMÓ-ler sáis)." },
+    { en:"How much is it with tax?", pron:"jáu MACH is it uid TAKS", es:"¿Cuánto es con impuestos?", uso:"La pregunta que evita la sorpresa en la caja. En la ciudad se suma cerca del 8,875 por ciento." },
+    { en:"Is it on sale?", pron:"is it on SÉIL", es:"¿Está en oferta?", uso:"On sale es en oferta. Ojo: for sale es se vende, otra cosa." },
+    { en:"Can I return this?", pron:"can ái ri-TÉRN dis", es:"¿Puedo devolver esto?", uso:"Preguntá la política antes de comprar: suelen ser 14 o 30 días con el recibo." },
+    { en:"Here is my receipt", pron:"jir is mái ri-SÍIT", es:"Acá está mi recibo", uso:"Sin recibo no hay devolución ni cambio. Guardalos todos hasta volver." },
+    { en:"I'll take it", pron:"áil TÉIK it", es:"Me lo llevo", uso:"La frase que cierra la compra. Corta y clara." }
+  ],
+  datos:[
+    { t:"El impuesto no está en la etiqueta", d:"Todo lo que ves marcado sale más en la caja: se suma alrededor del 8,875 por ciento de impuesto de la ciudad y el estado. Si dice 100, pagás cerca de 109." },
+    { t:"La ropa barata no paga impuesto", d:"En Nueva York la ropa y el calzado de menos de 110 dólares por prenda no pagan impuesto de venta. Arriba de eso, sí. Por eso a veces el total te da justo lo que decía la etiqueta." },
+    { t:"Sin recibo no hay vuelta atrás", d:"Las devoluciones se hacen con el recibo y dentro de un plazo, normalmente 14 o 30 días. Preguntá What is the return policy? y guardá el papel." }
+  ],
+  dialogo:{ personaje:"El vendedor de una tienda de ropa", escena:"Entrás a una tienda en Broadway. Te gusta una campera pero no sabés si te va a entrar.",
+    turnos:[
+      { ellos:{ en:"Hi there! Can I help you find anything?", pron:"JÁI der! can ái JÉLP iu fáind É-ni-zin", es:"¡Hola! ¿Te ayudo a buscar algo?" },
+        opciones:[
+          { en:"I'm just looking, thank you", pron:"áim yast LÚ-kin, ZÁNK iu", es:"Sólo estoy mirando, gracias", ok:true, reaccion:"Te dice Take your time! y se corre. Respuesta perfecta y educada." },
+          { en:"I need help", pron:"ái niid JÉLP", es:"Necesito ayuda", ok:false, reaccion:"Se acerca alarmado: esa frase suena a emergencia, no a compras." },
+          { en:"How much is it with tax?", pron:"jáu MACH is it uid TAKS", es:"¿Cuánto es con impuestos?", ok:false, reaccion:"Te pregunta How much is what? No agarraste nada todavía." }
+        ]},
+      { ellos:{ en:"Sure! Let me know if you need a size.", pron:"SHUR! let mi NÓU if iu niid a SÁIS", es:"¡Claro! Avisame si necesitás un talle." },
+        opciones:[
+          { en:"Do you have this in a medium?", pron:"du iu JAV dis in a MÍ-diam", es:"¿Tenés esto en talle medio?", ok:true, reaccion:"Busca en el perchero: Medium, here you go." },
+          { en:"I'll take it", pron:"áil TÉIK it", es:"Me lo llevo", ok:false, reaccion:"Va para la caja, pero ni te lo probaste ni sabés si es tu talle." },
+          { en:"Can I return this?", pron:"can ái ri-TÉRN dis", es:"¿Puedo devolver esto?", ok:false, reaccion:"Te mira raro: todavía no compraste nada." }
+        ]},
+      { ellos:{ en:"Here's a medium. Want to try it on?", pron:"jirs a MÍ-diam. uánt tu TRÁI it on", es:"Acá tenés un medio. ¿Te lo querés probar?" },
+        opciones:[
+          { en:"Yes, please. Where is the fitting room?", pron:"IÉS pliis. uér is de FÍ-tin rum", es:"Sí, por favor. ¿Dónde está el probador?", ok:true, reaccion:"Señala el fondo: In the back, on the left." },
+          { en:"Is it on sale?", pron:"is it on SÉIL", es:"¿Está en oferta?", ok:false, reaccion:"Te dice que no, pero seguís con la campera en la mano sin probártela." },
+          { en:"No, thank you", pron:"NÓU ZÁNK iu", es:"No, gracias", ok:false, reaccion:"La cuelga de vuelta. Rechazaste justo lo que necesitabas." }
+        ]},
+      { ellos:{ en:"How did it fit?", pron:"jáu did it FIT", es:"¿Cómo te quedó?" },
+        opciones:[
+          { en:"It's small. Do you have a bigger size?", pron:"its SMOL. du iu JAV a BÍ-guer sáis", es:"Me queda chica. ¿Tenés un talle más grande?", ok:true, reaccion:"Trae el large: Try this one." },
+          { en:"It was delicious", pron:"it uas di-LÍ-shos", es:"Estuvo riquísimo", ok:false, reaccion:"Se ríe fuerte: eso es para la comida." },
+          { en:"That's all, thank you", pron:"dats OL, ZÁNK iu", es:"Eso es todo, gracias", ok:false, reaccion:"Piensa que te vas sin nada y se va a atender a otro." }
+        ]},
+      { ellos:{ en:"Perfect. That's eighty-nine ninety-nine.", pron:"PÉR-fect. dats ÉI-ti náin NÁIN-ti náin", es:"Perfecto. Son ochenta y nueve con noventa y nueve." },
+        opciones:[
+          { en:"I'll take it. How much is it with tax?", pron:"áil TÉIK it. jáu MACH is it uid TAKS", es:"Me la llevo. ¿Cuánto es con impuestos?", ok:true, reaccion:"Te dice: No tax, it's under a hundred and ten. La ropa de menos de 110 no paga impuesto." },
+          { en:"Keep the change", pron:"KIIP de CHÉINCH", es:"Quedate con el vuelto", ok:false, reaccion:"Te mira confundido: en los negocios no se deja propina." },
+          { en:"Is the tip included?", pron:"is de TIP in-CLÚ-ded", es:"¿La propina está incluida?", ok:false, reaccion:"Te aclara que en las tiendas no hay propina. Eso era en el restaurante." }
+        ]}
+    ]}
+},
+{
+  dia:11, titulo:"Hotel", linea:"Q", color:"--mta-amarillo",
+  intro:"El hotel es tu base: si sabés hacer el check-in, dejar las valijas y reportar un problema de la habitación, el resto del viaje se apoya tranquilo.",
+  frases:[
+    { en:"I have a reservation", pron:"ái JAV a re-ser-VÉI-shon", es:"Tengo una reserva", uso:"La primera frase al llegar. Después te van a pedir el apellido y el pasaporte." },
+    { en:"My last name is Gómez", pron:"mái LAST néim is GÓ-mes", es:"Mi apellido es Gómez", uso:"Last name es el apellido; first name es el nombre. Deletrealo o mostralo escrito." },
+    { en:"Checking in, please", pron:"CHÉ-kin IN pliis", es:"Vengo a hacer el check-in", uso:"Con esto solo alcanza para arrancar. Para irte: Checking out, please." },
+    { en:"What time is check-out?", pron:"uát TÁIM is CHEK-aut", es:"¿A qué hora es la salida?", uso:"Normalmente entre las once y el mediodía. La entrada suele ser a partir de las tres." },
+    { en:"Can I leave my bags here?", pron:"can ái LIIV mái BAGS jir", es:"¿Puedo dejar las valijas acá?", uso:"Casi todos guardan el equipaje antes del check-in y después del check-out, gratis." },
+    { en:"What is the Wi-Fi password?", pron:"uát is de UÁI-fai PÁS-uord", es:"¿Cuál es la clave del Wi-Fi?", uso:"Pedí que te la escriban: las claves largas por teléfono son imposibles de agarrar." },
+    { en:"The air conditioning doesn't work", pron:"di ER con-DÍ-shon-in DÁ-sent UÓRK", es:"El aire acondicionado no funciona", uso:"Cambiá air conditioning por TV, shower (ducha), heater (calefacción). Doesn't work es no anda." },
+    { en:"There is no hot water", pron:"der is nóu JOT UÓ-ter", es:"No hay agua caliente", uso:"Se resuelve rápido si lo decís en recepción y no por teléfono." },
+    { en:"Can I have more towels?", pron:"can ái JAV MOR TÁU-els", es:"¿Me traen más toallas?", uso:"Sirve igual para almohadas (pillows), papel higiénico (toilet paper) o perchas (hangers)." },
+    { en:"Can you call me a taxi?", pron:"can iu COL mi a TÁK-si", es:"¿Me pedís un taxi?", uso:"En recepción lo hacen sin problema. También podés preguntar por el subte más cercano." },
+    { en:"Is breakfast included?", pron:"is BRÉK-fast in-CLÚ-ded", es:"¿El desayuno está incluido?", uso:"En Nueva York muchas veces no lo está, y cuando sí, tiene horario corto." }
+  ],
+  datos:[
+    { t:"Propina en el hotel también", d:"Al que te sube las valijas se le dan uno o dos dólares por bulto, y a la mucama de tres a cinco por noche, dejados en la mesa de luz. Tené billetes chicos guardados." },
+    { t:"Depósito en la tarjeta", d:"En el check-in te retienen un monto de garantía en la tarjeta (incidentals), que se libera días después. No es un cobro, pero te aparece congelado." },
+    { t:"Resort fee", d:"Muchos hoteles cobran un cargo diario aparte que no estaba en la reserva. Preguntá en el check-in: Is there a resort fee? para no sorprenderte al final." }
+  ],
+  dialogo:{ personaje:"El recepcionista del hotel", escena:"Llegás al hotel a las diez de la mañana, antes del horario de entrada, con las valijas.",
+    turnos:[
+      { ellos:{ en:"Good morning! Are you checking in?", pron:"gud MÓR-nin! ar iu CHÉ-kin IN", es:"¡Buen día! ¿Viene a hacer el check-in?" },
+        opciones:[
+          { en:"Yes. I have a reservation. My last name is Gómez", pron:"IÉS. ái JAV a re-ser-VÉI-shon. mái LAST néim is GÓ-mes", es:"Sí. Tengo una reserva. Mi apellido es Gómez", ok:true, reaccion:"Teclea: Let me find it. Can I see your passport?" },
+          { en:"What time is check-out?", pron:"uát TÁIM is CHEK-aut", es:"¿A qué hora es la salida?", ok:false, reaccion:"Te contesta, pero todavía no entraste. Una cosa por vez." },
+          { en:"Checking out, please", pron:"CHÉ-kin AUT pliis", es:"Vengo a hacer el check-out", ok:false, reaccion:"Busca tu nombre y no encuentra ninguna estadía. Dijiste lo contrario de lo que querías." }
+        ]},
+      { ellos:{ en:"I found it. Your room isn't ready until 3 PM.", pron:"ái FÁUND it. iur RUM Í-sent RÉ-di an-TIL zrii pi-EM", es:"La encontré. Tu habitación no está lista hasta las 3 de la tarde." },
+        opciones:[
+          { en:"Can I leave my bags here?", pron:"can ái LIIV mái BAGS jir", es:"¿Puedo dejar las valijas acá?", ok:true, reaccion:"Te pone etiquetas en las valijas: Of course, here's your tag." },
+          { en:"I don't understand", pron:"ái dont an-ders-TÁND", es:"No entiendo", ok:false, reaccion:"Te lo repite señalando el reloj. Ya sabías la hora, lo que faltaba era resolver las valijas." },
+          { en:"There is no hot water", pron:"der is nóu JOT UÓ-ter", es:"No hay agua caliente", ok:false, reaccion:"Te mira preocupado: todavía no viste la habitación." }
+        ]},
+      { ellos:{ en:"Sure. Anything else before you go?", pron:"SHUR. É-ni-zin ELS bi-FOR iu GÓU", es:"Claro. ¿Algo más antes de salir?" },
+        opciones:[
+          { en:"What is the Wi-Fi password? And is breakfast included?", pron:"uát is de UÁI-fai PÁS-uord? and is BRÉK-fast in-CLÚ-ded", es:"¿La clave del Wi-Fi? ¿Y el desayuno está incluido?", ok:true, reaccion:"Te anota la clave en una tarjetita: Breakfast is not included, sorry." },
+          { en:"Keep the change", pron:"KIIP de CHÉINCH", es:"Quedate con el vuelto", ok:false, reaccion:"No hubo ningún pago todavía. Te mira sin entender." },
+          { en:"Can I return this?", pron:"can ái ri-TÉRN dis", es:"¿Puedo devolver esto?", ok:false, reaccion:"Se ríe: eso es para los negocios." }
+        ]},
+      { ellos:{ en:"Here's your key. Room 812.", pron:"jirs iur KÍI. rum éit-uán-TÚU", es:"Acá está tu llave. Habitación 812." },
+        opciones:[
+          { en:"Thank you. What time is check-out?", pron:"ZÁNK iu. uát TÁIM is CHEK-aut", es:"Gracias. ¿A qué hora es la salida?", ok:true, reaccion:"Te dice: Eleven AM. A las once. Anotalo para el último día." },
+          { en:"Are you free?", pron:"ar iu FRÍI", es:"¿Está libre?", ok:false, reaccion:"Te mira sorprendido: eso se le pregunta a un taxi." },
+          { en:"A table for two, please", pron:"a TÉI-bel for TÚU pliis", es:"Una mesa para dos", ok:false, reaccion:"Te señala el restaurante de al lado. No es lo que necesitabas." }
+        ]},
+      { ellos:{ en:"By the way, the shower in 812 was fixed today.", pron:"bái de UÉI, de SHÁU-er in éit-uán-TÚU uas FIKST tu-DÉI", es:"Por cierto, la ducha de la 812 se arregló hoy." },
+        opciones:[
+          { en:"If there is no hot water, I'll tell you", pron:"if der is nóu JOT UÓ-ter, áil TEL iu", es:"Si no hay agua caliente, te aviso", ok:true, reaccion:"Asiente: Please do. Los problemas de la habitación se avisan en recepción y los resuelven rápido." },
+          { en:"That's too expensive", pron:"dats tu eks-PÉN-siv", es:"Es demasiado caro", ok:false, reaccion:"Te mira confundido: no habló de plata." },
+          { en:"Nothing to declare", pron:"NÁ-zin tu di-CLÉR", es:"Nada para declarar", ok:false, reaccion:"Se ríe: eso era en el aeropuerto." }
+        ]}
+    ]}
+},
+{
+  dia:12, titulo:"Orientarse en Manhattan", linea:"4", color:"--mta-verde",
+  intro:"Manhattan es una grilla numerada, así que orientarse es más fácil que en casi cualquier ciudad: si entendés cómo están numeradas las calles, casi no necesitás preguntar.",
+  frases:[
+    { en:"Where is Central Park?", pron:"uér is SÉN-tral PARK", es:"¿Dónde queda Central Park?", uso:"Cambiá el nombre del lugar. La pregunta más simple y la que más se usa." },
+    { en:"How do I get to the Empire State?", pron:"jáu du ái GUET tu di ÉM-pair STÉIT", es:"¿Cómo llego al Empire State?", uso:"Esta pide el camino, no sólo la ubicación. Te contestan con cuadras y direcciones." },
+    { en:"Is it far?", pron:"is it FAR", es:"¿Queda lejos?", uso:"Te van a contestar en cuadras o en minutos caminando." },
+    { en:"It's two blocks that way", pron:"its TÚU BLOKS dat UÉI", es:"Son dos cuadras para allá", uso:"Block es cuadra. Te lo van a decir señalando: mirá la mano, no las palabras." },
+    { en:"Go straight", pron:"góu STRÉIT", es:"Seguí derecho", uso:"Straight es derecho, no a la derecha. Esa confusión es la más común de todas." },
+    { en:"Turn left", pron:"tern LEFT", es:"Doblá a la izquierda", uso:"A la derecha: turn right (tern RÁIT). Repetilo en voz alta mientras lo escuchás." },
+    { en:"It's on the corner", pron:"its on de CÓR-ner", es:"Está en la esquina", uso:"Las direcciones acá se dan por cruce de calles: on the corner of 5th and 42nd." },
+    { en:"Am I close?", pron:"am ái CLÓUS", es:"¿Estoy cerca?", uso:"Cuando ya caminaste un rato y no estás seguro. Respuesta típica: Almost! (¡Casi!)" },
+    { en:"Can you show me on the map?", pron:"can iu SHÓU mi on de MAP", es:"¿Me lo mostrás en el mapa?", uso:"Con el teléfono en la mano. Resuelve cualquier explicación que no entendiste." },
+    { en:"I'm lost", pron:"áim LOST", es:"Estoy perdido", uso:"Dos palabras que consiguen ayuda al instante. Sin vergüenza." }
+  ],
+  datos:[
+    { t:"La grilla de Manhattan", d:"Las streets cruzan de este a oeste y están numeradas: cuanto más alto el número, más al norte. Las avenues van de norte a sur: la 1st Avenue está al este y la numeración crece hacia el oeste. Si sabés el cruce, sabés dónde estás." },
+    { t:"Cuánto es una cuadra", d:"Veinte cuadras de street hacen aproximadamente una milla, unos 1600 metros, unos 20 minutos caminando. Las cuadras entre avenidas son mucho más largas que las de calle: tres avenidas cansan más que diez calles." },
+    { t:"Cómo se dan las direcciones", d:"No te van a decir el número de puerta: te van a decir el cruce. On 42nd between 5th and 6th significa en la calle 42, entre la Quinta y la Sexta avenida." }
+  ],
+  dialogo:{ personaje:"Un policía en la esquina", escena:"Estás en la calle 34 y no encontrás la entrada al Empire State. Hay un policía parado en la esquina.",
+    turnos:[
+      { ellos:{ en:"(El policía mira el tránsito, tranquilo)", pron:"", es:"" },
+        opciones:[
+          { en:"Excuse me, how do I get to the Empire State?", pron:"eks-KIÚS mi, jáu du ái GUET tu di ÉM-pair STÉIT", es:"Perdón, ¿cómo llego al Empire State?", ok:true, reaccion:"Se da vuelta y señala: It's right there, two blocks." },
+          { en:"I'm lost", pron:"áim LOST", es:"Estoy perdido", ok:false, reaccion:"Te pregunta Where are you trying to go? No sirve sin decir a dónde vas." },
+          { en:"Is it far?", pron:"is it FAR", es:"¿Está lejos?", ok:false, reaccion:"Te mira sin entender: Is what far? Falta decir qué buscás." }
+        ]},
+      { ellos:{ en:"Sure. Go straight two blocks and turn left.", pron:"SHUR. góu STRÉIT tu BLOKS and tern LEFT", es:"Claro. Seguí derecho dos cuadras y doblá a la izquierda." },
+        opciones:[
+          { en:"Straight two blocks, then left?", pron:"STRÉIT tu BLOKS, den LEFT", es:"¿Derecho dos cuadras y después izquierda?", ok:true, reaccion:"Asiente: Exactly. Repetir lo que te dijeron es la mejor forma de chequear que entendiste." },
+          { en:"Turn right", pron:"tern RÁIT", es:"Doblar a la derecha", ok:false, reaccion:"Te corrige: Left, not right. Straight es derecho, no derecha." },
+          { en:"It's on the corner", pron:"its on de CÓR-ner", es:"Está en la esquina", ok:false, reaccion:"Te pregunta What is? No entendió a qué te referís." }
+        ]},
+      { ellos:{ en:"Exactly. It's on the corner of 34th and 5th.", pron:"eg-SÁCT-li. its on de CÓR-ner of zér-ti-FORZ and FIFZ", es:"Exacto. Está en la esquina de la 34 y la Quinta." },
+        opciones:[
+          { en:"Is it far?", pron:"is it FAR", es:"¿Queda lejos?", ok:true, reaccion:"Te dice: Five minutes walking. Cinco minutos a pie." },
+          { en:"I don't speak English", pron:"ái dont spiik ÍN-glish", es:"No hablo inglés", ok:false, reaccion:"Se frena, justo cuando la explicación ya estaba entendida." },
+          { en:"Can you write it down?", pron:"can iu RÁIT it daun", es:"¿Me lo escribís?", ok:false, reaccion:"Te lo anota, pero para dos cuadras es más simple mirar el mapa." }
+        ]},
+      { ellos:{ en:"Nah, five minutes walking. You can't miss it.", pron:"NA, fáiv MÍ-nits UÓ-kin. iu cant MIS it", es:"No, cinco minutos caminando. Es imposible no verlo." },
+        opciones:[
+          { en:"Can you show me on the map?", pron:"can iu SHÓU mi on de MAP", es:"¿Me lo mostrás en el mapa?", ok:true, reaccion:"Le mostrás el teléfono y te marca el punto con el dedo. Chequeo final perfecto." },
+          { en:"Am I close?", pron:"am ái CLÓUS", es:"¿Estoy cerca?", ok:false, reaccion:"Se ríe: Yes, I just told you! Te lo acaba de decir." },
+          { en:"Where is the subway?", pron:"uér is de SÁB-uei", es:"¿Dónde está el subte?", ok:false, reaccion:"Te señala la escalera, pero para dos cuadras no hace falta el subte." }
+        ]}
+    ]}
+},
+{
+  dia:13, titulo:"Emergencias y salud", linea:"E", color:"--mta-azul",
+  intro:"Ojalá no uses nada de este día. Igual aprendelo entero: son las frases que tenés que poder decir temblando, sin pensar. En una emergencia el 911 atiende gratis y consigue intérprete en español.",
+  frases:[
+    { en:"Help!", pron:"JÉLP", es:"¡Ayuda!", uso:"Gritala fuerte. Es la única palabra que hace falta para que la gente reaccione." },
+    { en:"Call 911", pron:"COL náin uán UÁN", es:"Llamá al 911", uso:"Se dice nine one one, nunca nine eleven. Es policía, bomberos y ambulancia, y es gratis desde cualquier teléfono." },
+    { en:"I need a doctor", pron:"ái niid a DÓC-tor", es:"Necesito un médico", uso:"En una farmacia, un hotel o la calle. Para urgencias se va al emergency room (ER)." },
+    { en:"Call an ambulance", pron:"COL an ÁM-biu-lans", es:"Llamá una ambulancia", uso:"Si alguien no puede moverse o está muy mal. La ambulancia en Estados Unidos se cobra, pero primero está la salud." },
+    { en:"It hurts here", pron:"it JERTS jir", es:"Me duele acá", uso:"Señalando la parte del cuerpo. Es más claro que cualquier explicación larga." },
+    { en:"I'm allergic to penicillin", pron:"áim a-LÉR-yic tu pe-ni-SÍ-lin", es:"Soy alérgico a la penicilina", uso:"Cambiá por lo tuyo. Llevá esto escrito en un papel en la billetera, en inglés." },
+    { en:"I take medication for my heart", pron:"ái téik me-di-KÉI-shon for mái JART", es:"Tomo medicación para el corazón", uso:"Cambiá heart por diabetes, blood pressure (presión), asthma (asma)." },
+    { en:"I was robbed", pron:"ái uas ROBD", es:"Me robaron", uso:"En la comisaría o al 911. Te van a dar un número de reporte que necesitás para el seguro." },
+    { en:"Someone stole my phone", pron:"SÁM-uan STÓUL mái FÓUN", es:"Alguien me robó el teléfono", uso:"Cambiá phone por wallet (billetera), bag (bolso), passport (pasaporte)." },
+    { en:"I lost my passport", pron:"ái LOST mái PÁS-port", es:"Perdí mi pasaporte", uso:"Llamá al consulado argentino y hacé la denuncia en la policía. Tené una foto del pasaporte en el teléfono." },
+    { en:"I need an interpreter in Spanish", pron:"ái niid an in-TÉR-pre-ter in SPÁ-nish", es:"Necesito un intérprete en español", uso:"Tenés derecho a esto en el 911, en hospitales y en la policía. Pedilo siempre: es gratis." },
+    { en:"Where is the nearest pharmacy?", pron:"uér is de NÍ-rest FAR-ma-si", es:"¿Dónde está la farmacia más cercana?", uso:"Pharmacy o drugstore. Muchas abren 24 horas y adentro tienen enfermería para cosas menores." }
+  ],
+  datos:[
+    { t:"911 es gratis y tiene español", d:"Llamás, decís Spanish, please o I need an interpreter in Spanish, y te ponen un intérprete en línea. Funciona aunque el teléfono no tenga chip ni saldo." },
+    { t:"Guardá esto antes de viajar", d:"En el teléfono y en un papel: tu alergia y tu medicación en inglés, el teléfono del consulado argentino en Nueva York, una foto del pasaporte y el número de tu seguro de viaje." },
+    { t:"Falso amigo peligroso", d:"Si estás intoxicado no digas I'm intoxicated: eso significa borracho. Se dice I have food poisoning (ái jav FUD PÓI-son-in). Y sensible no es sensible sino sensato: para sensible se dice sensitive." }
+  ],
+  dialogo:{ personaje:"La operadora del 911", escena:"Alguien te arrebató el bolso en la calle y no podés ni pensar. Marcás 911.",
+    turnos:[
+      { ellos:{ en:"911, what's your emergency?", pron:"náin uán UÁN, uáts iur i-MÉR-yen-si", es:"911, ¿cuál es su emergencia?" },
+        opciones:[
+          { en:"I need an interpreter in Spanish", pron:"ái niid an in-TÉR-pre-ter in SPÁ-nish", es:"Necesito un intérprete en español", ok:true, reaccion:"Te dice One moment y en menos de un minuto entra alguien hablando español." },
+          { en:"I don't speak English", pron:"ái dont spiik ÍN-glish", es:"No hablo inglés", ok:false, reaccion:"Sirve, pero pedir intérprete directamente es más rápido y es tu derecho." },
+          { en:"Excuse me", pron:"eks-KIÚS mi", es:"Permiso", ok:false, reaccion:"Repite la pregunta. En una emergencia no hace falta ser cortés: hay que ser claro." }
+        ]},
+      { ellos:{ en:"One moment. Are you hurt?", pron:"uán MÓU-ment. ar iu JERT", es:"Un momento. ¿Está herido?" },
+        opciones:[
+          { en:"I was robbed. It hurts here", pron:"ái uas ROBD. it JERTS jir", es:"Me robaron. Me duele acá", ok:true, reaccion:"Anota y pregunta la dirección. Dijiste lo que pasó y que estás lastimado, en ese orden." },
+          { en:"I lost my passport", pron:"ái LOST mái PÁS-port", es:"Perdí mi pasaporte", ok:false, reaccion:"No es lo mismo perder que te roben, y la ayuda que mandan es distinta." },
+          { en:"I'm sorry", pron:"áim SÓ-ri", es:"Perdón", ok:false, reaccion:"Te repite la pregunta. No pidas disculpas en una emergencia: contestá." }
+        ]},
+      { ellos:{ en:"Where are you right now?", pron:"uér ar iu ráit NÁU", es:"¿Dónde está ahora mismo?" },
+        opciones:[
+          { en:"On the corner of 34th and 5th", pron:"on de CÓR-ner of zér-ti-FORZ and FIFZ", es:"En la esquina de la 34 y la Quinta", ok:true, reaccion:"Confirma la ubicación: el cruce de calles es exactamente lo que necesitan." },
+          { en:"I'm lost", pron:"áim LOST", es:"Estoy perdido", ok:false, reaccion:"Te pide que mires un cartel de esquina. Siempre hay uno arriba del semáforo." },
+          { en:"I'm staying at a hotel in Manhattan", pron:"áim STÉI-in at a jou-TÉL in man-JÁ-tan", es:"Me quedo en un hotel en Manhattan", ok:false, reaccion:"Te aclara que necesita dónde estás ahora, no dónde dormís." }
+        ]},
+      { ellos:{ en:"Officers are on the way. Do you need an ambulance?", pron:"Ó-fi-sers ar on de UÉI. du iu NIID an ÁM-biu-lans", es:"La policía va en camino. ¿Necesita una ambulancia?" },
+        opciones:[
+          { en:"Yes, please. I take medication for my heart", pron:"IÉS pliis. ái téik me-di-KÉI-shon for mái JART", es:"Sí, por favor. Tomo medicación para el corazón", ok:true, reaccion:"Manda la ambulancia y avisa lo de la medicación. Ese dato cambia cómo te atienden." },
+          { en:"No, thank you", pron:"NÓU ZÁNK iu", es:"No, gracias", ok:false, reaccion:"Cierra el pedido de ambulancia. Si te duele algo, no la rechaces por vergüenza." },
+          { en:"Someone stole my phone", pron:"SÁM-uan STÓUL mái FÓUN", es:"Alguien me robó el teléfono", ok:false, reaccion:"Te pregunta si estás llamando desde otro. Es un dato para la denuncia, no para esta pregunta." }
+        ]},
+      { ellos:{ en:"Stay where you are. Help is coming.", pron:"STÉI uér iu AR. JELP is CÁ-min", es:"Quedate donde estás. La ayuda está llegando." },
+        opciones:[
+          { en:"Thank you. I need a doctor", pron:"ZÁNK iu. ái niid a DÓC-tor", es:"Gracias. Necesito un médico", ok:true, reaccion:"Se queda en línea con vos hasta que llegan. Nunca cortes el 911 antes de que te lo digan." },
+          { en:"See you", pron:"si IÚ", es:"Nos vemos", ok:false, reaccion:"No cortes: la operadora se queda con vos hasta que llegue la ayuda." },
+          { en:"How much is it?", pron:"jáu MACH is it", es:"¿Cuánto cuesta?", ok:false, reaccion:"La llamada al 911 es gratis. Nunca dudes en llamar por el costo." }
+        ]}
+    ]}
+},
+{
+  dia:14, titulo:"Repaso final y un día completo", linea:"6", color:"--mta-verde", repaso:[1,2,3,4,5,6,8,9,10,11,12,13],
+  intro:"Último día. Repasás todo el curso y después hacés el simulacro grande: un día entero en Nueva York, desde el desayuno hasta la vuelta al hotel, encadenado.",
+  frases:[],
+  datos:[
+    { t:"Las diez que se llevan el viaje", d:"Excuse me · Can you speak slower, please? · I don't understand · How much is it? · Do you take cards? · Does this train stop at...? · To go, please · Can I have the check, please? · Where is...? · I need help." },
+    { t:"Los cuatro falsos amigos que te pueden meter en un lío", d:"Embarrassed es avergonzado, no embarazada (pregnant). Exit es salida, no éxito. Constipated es estreñido, no resfriado (I have a cold). Molest es acosar, no molestar (bother)." },
+    { t:"Los tres datos de plata", d:"Restaurante con mozo: 18 a 20 por ciento de propina. La etiqueta no incluye impuesto: se suma cerca de 8,875 por ciento en la caja, salvo ropa de menos de 110 dólares. Taxi y apps: 15 a 20 por ciento." },
+    { t:"Si te trabás, esto siempre funciona", d:"Señalar y decir This one, please. Mostrar la pantalla del teléfono. Pedir Can you write it down? Y si nada sale, Do you speak Spanish? En Nueva York la respuesta es que sí mucho más seguido de lo que creés." }
+  ],
+  dialogo:{ personaje:"Un día entero en Nueva York", escena:"Simulacro final. Arranca a las ocho de la mañana en el lobby del hotel y termina de noche en la puerta del restaurante. Cada turno es un momento distinto del día.",
+    turnos:[
+      { ellos:{ en:"(Recepción, 8 AM) Good morning! Do you need anything?", pron:"gud MÓR-nin! du iu niid É-ni-zin", es:"(Recepción, 8 de la mañana) ¡Buen día! ¿Necesitás algo?" },
+        opciones:[
+          { en:"Yes, please. Can you call me a taxi?", pron:"IÉS pliis. can iu COL mi a TÁK-si", es:"Sí, por favor. ¿Me pedís un taxi?", ok:true, reaccion:"Levanta el teléfono: Two minutes. Arrancaste el día resolviendo." },
+          { en:"Nothing to declare", pron:"NÁ-zin tu di-CLÉR", es:"Nada para declarar", ok:false, reaccion:"Se ríe: eso era en el aeropuerto." },
+          { en:"It hurts here", pron:"it JERTS jir", es:"Me duele acá", ok:false, reaccion:"Se alarma y busca ayuda médica. Cuidado con las frases de emergencia." }
+        ]},
+      { ellos:{ en:"(Café, 8:30) Hi! What can I get you? For here or to go?", pron:"JÁI! uát can ái GUET iu? for JIR or tu GÓU", es:"(Café, 8:30) ¡Hola! ¿Qué te doy? ¿Para acá o para llevar?" },
+        opciones:[
+          { en:"A coffee with milk, to go, please", pron:"a CÓ-fi uid MILK, tu GÓU pliis", es:"Un café con leche, para llevar, por favor", ok:true, reaccion:"Dos preguntas contestadas en una frase. Así de rápido se pide acá." },
+          { en:"For here or to go?", pron:"for JIR or tu GÓU", es:"¿Para acá o para llevar?", ok:false, reaccion:"Le devolviste su propia pregunta. Te mira esperando." },
+          { en:"I'm just looking, thank you", pron:"áim yast LÚ-kin, ZÁNK iu", es:"Sólo estoy mirando, gracias", ok:false, reaccion:"Es un café, no una tienda: te quedaste sin desayuno." }
+        ]},
+      { ellos:{ en:"(Andén, 9 AM) This train is running express today.", pron:"dis TRÉIN is RÁ-nin eks-PRÉS tu-DÉI", es:"(Andén, 9 de la mañana) Hoy este tren va como express." },
+        opciones:[
+          { en:"Does this train stop at Times Square?", pron:"das dis tréin STOP at táims SKUÉR", es:"¿Este tren para en Times Square?", ok:true, reaccion:"Un pasajero te contesta: No, take the local. Preguntaste justo a tiempo." },
+          { en:"Do I tap here?", pron:"du ái TAP jir", es:"¿Apoyo acá?", ok:false, reaccion:"Ya pasaste el molinete. El problema ahora es si este tren te sirve." },
+          { en:"Keep the change", pron:"KIIP de CHÉINCH", es:"Quedate con el vuelto", ok:false, reaccion:"No tiene sentido en el andén. Te mira raro." }
+        ]},
+      { ellos:{ en:"(Tienda, 1 PM) That's one hundred and twenty dollars.", pron:"dats uán JÁN-dred and TUÉN-ti DÓ-lars", es:"(Tienda, 1 de la tarde) Son ciento veinte dólares." },
+        opciones:[
+          { en:"How much is it with tax? Can I return this?", pron:"jáu MACH is it uid TAKS? can ái ri-TÉRN dis", es:"¿Cuánto es con impuestos? ¿Puedo devolverlo?", ok:true, reaccion:"Te dice el total con impuesto (arriba de 110 la ropa sí paga) y que tenés 30 días con el recibo." },
+          { en:"Is the tip included?", pron:"is de TIP in-CLÚ-ded", es:"¿La propina está incluida?", ok:false, reaccion:"En las tiendas no hay propina. Te mira sin entender." },
+          { en:"I'll take it", pron:"áil TÉIK it", es:"Me lo llevo", ok:false, reaccion:"Cerraste la compra sin saber el total real ni si se puede devolver." }
+        ]},
+      { ellos:{ en:"(Calle, 6 PM) Excuse me, are you okay? You look lost.", pron:"eks-KIÚS mi, ar iu ou-KÉI? iu luk LOST", es:"(Calle, 6 de la tarde) Perdón, ¿estás bien? Parecés perdido." },
+        opciones:[
+          { en:"I'm lost. Can you show me on the map?", pron:"áim LOST. can iu SHÓU mi on de MAP", es:"Estoy perdido. ¿Me lo mostrás en el mapa?", ok:true, reaccion:"Te marca el punto y te dice: Go straight, three blocks, turn right." },
+          { en:"No, thank you", pron:"NÓU ZÁNK iu", es:"No, gracias", ok:false, reaccion:"Se va. Rechazaste ayuda que necesitabas: pedirla es más rápido que dar vueltas." },
+          { en:"I was robbed", pron:"ái uas ROBD", es:"Me robaron", ok:false, reaccion:"Saca el teléfono para llamar al 911. Nunca uses frases de emergencia si no es una." }
+        ]},
+      { ellos:{ en:"(Restaurante, 9 PM) How was everything tonight?", pron:"jáu uas É-vri-zin tu-NÁIT", es:"(Restaurante, 9 de la noche) ¿Cómo estuvo todo esta noche?" },
+        opciones:[
+          { en:"It was delicious. Can I have the check, please?", pron:"it uas di-LÍ-shos. can ái JAV de CHEK pliis", es:"Estuvo riquísimo. ¿Me traés la cuenta?", ok:true, reaccion:"Terminaste el día entero en inglés. Dejá 18 a 20 por ciento y andá a dormir tranquilo." },
+          { en:"That's all, thank you", pron:"dats OL, ZÁNK iu", es:"Eso es todo, gracias", ok:false, reaccion:"Se va sin traer la cuenta. En el restaurante la cuenta se pide con check." },
+          { en:"What time do you open?", pron:"uát TÁIM du iu ÓU-pen", es:"¿A qué hora abren?", ok:false, reaccion:"Te da el horario, pero seguís sentado sin pagar." }
+        ]}
+    ]}
+}
+];
+
+/* ============================================================================
+   SOS — frases críticas del modo emergencia. Funcionan sin haber estudiado
+   nada y se buscan igual que las del curso.
+   ========================================================================= */
+const SOS = [
+  { en:"Help!", pron:"JÉLP", es:"¡Ayuda!", uso:"Gritalo. No hace falta nada más para que la gente reaccione." },
+  { en:"Call 911", pron:"COL náin uán UÁN", es:"Llamá al 911", uso:"Se dice nine one one. Policía, bomberos y ambulancia. Gratis desde cualquier teléfono." },
+  { en:"I need an interpreter in Spanish", pron:"ái niid an in-TÉR-pre-ter in SPÁ-nish", es:"Necesito un intérprete en español", uso:"Es tu derecho en el 911, en hospitales y en la policía. Es gratis y tardan menos de un minuto." },
+  { en:"Call an ambulance", pron:"COL an ÁM-biu-lans", es:"¡Llamá una ambulancia!", uso:"Si alguien no puede moverse, no respira bien o se desmayó." },
+  { en:"I need a doctor", pron:"ái niid a DÓC-tor", es:"Necesito un médico", uso:"Para urgencias, el lugar es el emergency room de un hospital." },
+  { en:"It hurts here", pron:"it JERTS jir", es:"Me duele acá", uso:"Señalando. Vale más que cualquier explicación." },
+  { en:"I can't breathe", pron:"ái cant BRÍID", es:"No puedo respirar", uso:"Máxima prioridad: decilo y te atienden primero." },
+  { en:"I'm allergic to penicillin", pron:"áim a-LÉR-yic tu pe-ni-SÍ-lin", es:"Soy alérgico a la penicilina", uso:"Cambiá por lo tuyo. Llevalo escrito en inglés en la billetera." },
+  { en:"I take medication for my heart", pron:"ái téik me-di-KÉI-shon for mái JART", es:"Tomo medicación para el corazón", uso:"Cambiá heart por diabetes, blood pressure, asthma." },
+  { en:"I was robbed", pron:"ái uas ROBD", es:"Me robaron", uso:"Pedí el número de reporte: lo necesitás para el seguro." },
+  { en:"I lost my passport", pron:"ái LOST mái PÁS-port", es:"Perdí mi pasaporte", uso:"Denuncia en la policía y llamada al consulado argentino." },
+  { en:"I'm lost", pron:"áim LOST", es:"Estoy perdido", uso:"Dos palabras que consiguen ayuda al instante." }
+];
+
+/* ============================================================================
+   UTILIDADES
+   ========================================================================= */
+const $ = (id) => document.getElementById(id);
+const AVISOS = $("avisos");
+function avisar(t){ if(AVISOS){ AVISOS.textContent = ""; setTimeout(()=>{ AVISOS.textContent = t; }, 30); } }
+function esc(s){ return String(s==null?"":s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
+function normalizar(s){
+  return String(s||"").toLowerCase()
+    .normalize("NFD").replace(/[̀-ͯ]/g,"")
+    .replace(/[^a-z0-9 ]/g," ").replace(/\s+/g," ").trim();
+}
+function idFrase(f){ return normalizar(f.en).replace(/ /g,"-"); }
+function mezclar(a){ const b=a.slice(); for(let i=b.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [b[i],b[j]]=[b[j],b[i]]; } return b; }
+function hoyISO(d){ const x = d||new Date(); return x.getFullYear()+"-"+String(x.getMonth()+1).padStart(2,"0")+"-"+String(x.getDate()).padStart(2,"0"); }
+function diasEntre(a,b){ // a, b en ISO
+  const pa = a.split("-").map(Number), pb = b.split("-").map(Number);
+  const da = Date.UTC(pa[0],pa[1]-1,pa[2]), db = Date.UTC(pb[0],pb[1]-1,pb[2]);
+  return Math.round((db-da)/86400000);
+}
+
+/* Índice global de frases (curso + emergencia) */
+const TODAS = [];
+CURSO.forEach(d => (d.frases||[]).forEach(f => TODAS.push({ f, dia:d.dia, tituloDia:d.titulo, color:d.color, linea:d.linea })));
+SOS.forEach(f => { if(!TODAS.some(x => idFrase(x.f)===idFrase(f))) TODAS.push({ f, dia:0, tituloDia:"Emergencias", color:"--emergencia", linea:"!" }); });
+const POR_ID = {};
+TODAS.forEach(x => { POR_ID[idFrase(x.f)] = x; });
+
+/* ============================================================================
+   ESTADO Y PERSISTENCIA — todo envuelto en try/catch: si localStorage falla,
+   la app sigue funcionando en memoria.
+   ========================================================================= */
+const CLAVE = "manuevayol.v1";
+let almacenamientoOk = true;
+const estadoInicial = () => ({ dia:1, frases:{}, racha:0, ultima:null, hechos:[], lento:false });
+let E = estadoInicial();
+
+function cargar(){
+  try{
+    const crudo = window.localStorage.getItem(CLAVE);
+    if(crudo){
+      const p = JSON.parse(crudo);
+      if(p && typeof p === "object"){
+        E = Object.assign(estadoInicial(), p);
+        if(typeof E.frases !== "object" || !E.frases) E.frases = {};
+        if(!Array.isArray(E.hechos)) E.hechos = [];
+        E.dia = Math.min(Math.max(1, Number(E.dia)||1), CURSO.length);
+      }
+    }
+  }catch(err){ almacenamientoOk = false; }
+}
+function guardar(){
+  try{ window.localStorage.setItem(CLAVE, JSON.stringify(E)); }
+  catch(err){ almacenamientoOk = false; }
+}
+function borrarTodo(){
+  try{ window.localStorage.removeItem(CLAVE); }catch(err){ almacenamientoOk = false; }
+  E = estadoInicial();
+}
+
+/* ---- Leitner de 5 cajas ---- */
+const ESPERA = [0, 1, 2, 4, 8]; // días de espera según la caja (1 a 5)
+function estadoFrase(id){
+  const e = E.frases[id];
+  if(e && typeof e.caja === "number") return e;
+  return { caja:0, prox:null };
+}
+function registrar(id, acerto){
+  const e = estadoFrase(id);
+  const caja = acerto ? Math.min(5, Math.max(1, e.caja + 1)) : 1;
+  const prox = hoyISO(new Date(Date.now() + ESPERA[caja-1]*86400000));
+  E.frases[id] = { caja, prox };
+  guardar();
+}
+function vencida(id){
+  const e = estadoFrase(id);
+  if(e.caja === 0) return false;
+  if(e.caja >= 5) return false;
+  if(!e.prox) return true;
+  return diasEntre(e.prox, hoyISO()) >= 0;
+}
+function vencidas(){
+  return Object.keys(E.frases).filter(id => vencida(id) && POR_ID[id]);
+}
+function dominadas(){
+  return Object.keys(E.frases).filter(id => estadoFrase(id).caja >= 4 && POR_ID[id]).length;
+}
+function porcentaje(){
+  const tot = TODAS.length;
+  return tot ? Math.round(dominadas()*100/tot) : 0;
+}
+
+/* ---- Racha ---- */
+function marcarSesion(){
+  const hoy = hoyISO();
+  if(E.ultima === hoy){ /* ya contada */ }
+  else if(E.ultima && diasEntre(E.ultima, hoy) === 1){ E.racha = (E.racha||0) + 1; }
+  else { E.racha = 1; }
+  E.ultima = hoy;
+  guardar();
+}
+
+/* ============================================================================
+   AUDIO — Web Speech API. Si no hay voces en inglés, se esconde todo lo de
+   audio en lugar de romperse.
+   ========================================================================= */
+const Audio_ = {
+  ok:false, voz:null, listo:false,
+  buscarVoz(){
+    if(!("speechSynthesis" in window)) return false;
+    let vs = [];
+    try{ vs = window.speechSynthesis.getVoices() || []; }catch(err){ return false; }
+    if(!vs.length) return false;
+    this.voz = vs.find(v => /^en[-_]US/i.test(v.lang))
+            || vs.find(v => /^en/i.test(v.lang))
+            || null;
+    return !!this.voz;
+  },
+  iniciar(alCambiar){
+    if(!("speechSynthesis" in window)){ this.listo = true; alCambiar(); return; }
+    const probar = () => {
+      const antes = this.ok;
+      this.ok = this.buscarVoz();
+      if(this.ok !== antes || !this.listo){ this.listo = true; alCambiar(); }
+    };
+    probar();
+    try{ window.speechSynthesis.onvoiceschanged = probar; }catch(err){}
+    setTimeout(probar, 400);
+    setTimeout(() => { this.listo = true; probar(); }, 1600);
+  },
+  decir(texto){
+    if(!this.ok) return;
+    try{
+      window.speechSynthesis.cancel();
+      const u = new SpeechSynthesisUtterance(texto);
+      if(this.voz){ u.voice = this.voz; u.lang = this.voz.lang; } else { u.lang = "en-US"; }
+      u.rate = E.lento ? 0.6 : 0.92;
+      u.pitch = 1;
+      window.speechSynthesis.speak(u);
+    }catch(err){}
+  }
+};
+function botonAudio(texto, clase){
+  if(!Audio_.ok) return "";
+  return '<button type="button" class="btn-audio '+(clase||"")+'" data-decir="'+esc(texto)+'">'
+       + '<span aria-hidden="true">&#9654;</span> Escuchar</button>';
+}
+function botonVelocidad(){
+  if(!Audio_.ok) return "";
+  return '<button type="button" class="btn-audio mini" id="btnVel" aria-pressed="'+(E.lento?"true":"false")+'"'
+       + ' aria-label="Velocidad de la voz: '+(E.lento?"lenta":"normal")+'. Tocá para cambiar.">'
+       + (E.lento ? "Voz lenta" : "Voz normal") + '</button>';
+}
+document.addEventListener("click", (ev) => {
+  const b = ev.target.closest("[data-decir]");
+  if(b){ Audio_.decir(b.getAttribute("data-decir")); return; }
+  if(ev.target.closest("#btnVel")){
+    E.lento = !E.lento; guardar();
+    document.querySelectorAll("#btnVel").forEach(x => {
+      x.textContent = E.lento ? "Voz lenta" : "Voz normal";
+      x.setAttribute("aria-pressed", E.lento ? "true" : "false");
+      x.setAttribute("aria-label", "Velocidad de la voz: " + (E.lento?"lenta":"normal") + ". Tocá para cambiar.");
+    });
+    avisar(E.lento ? "Velocidad lenta" : "Velocidad normal");
+  }
+});
+
+/* ============================================================================
+   NAVEGACIÓN
+   ========================================================================= */
+const VISTAS = { inicio:$("vInicio"), dia:$("vDia"), buscar:$("vBuscar"), sos:$("vSOS") };
+let vistaActual = "inicio";
+let vistaPrevia = "inicio";
+
+function ir(nombre, opts){
+  opts = opts || {};
+  if(nombre !== vistaActual && nombre !== "sos" && nombre !== "buscar") vistaPrevia = nombre;
+  else if(nombre === "sos" || nombre === "buscar"){ if(vistaActual !== "sos" && vistaActual !== "buscar") vistaPrevia = vistaActual; }
+  vistaActual = nombre;
+  Object.keys(VISTAS).forEach(k => { VISTAS[k].hidden = (k !== nombre); });
+  if(nombre === "inicio") pintarInicio();
+  if(nombre === "dia") pintarDia();
+  if(nombre === "buscar") pintarBuscar();
+  if(nombre === "sos") pintarSOS();
+  pintarBarra();
+  pintarPie();
+  if(!opts.sinScroll) window.scrollTo(0,0);
+  const m = $("main"); if(m && !opts.sinFoco) m.focus();
+}
+
+function pintarBarra(){
+  const disco = $("barraDisco"), tit = $("barraTitulo");
+  if(vistaActual === "dia" && sesion){
+    const d = sesion.dato;
+    disco.textContent = d.linea;
+    disco.style.background = "var("+d.color+")";
+    disco.classList.toggle("sobre-claro", d.color === "--mta-amarillo" || d.color === "--mta-gris");
+    disco.hidden = false;
+    tit.textContent = "Día " + d.dia + " · " + d.titulo;
+  } else if(vistaActual === "sos"){
+    disco.hidden = true;
+    tit.textContent = "Emergencia";
+  } else if(vistaActual === "buscar"){
+    disco.hidden = true;
+    tit.textContent = "Buscador";
+  } else {
+    disco.hidden = true;
+    tit.textContent = "Ma Nueva Yol";
+  }
+}
+
+function pintarPie(){
+  $("pieInt").innerHTML =
+      '<button type="button" class="btn" data-ir="inicio"'+(vistaActual==="inicio"?' aria-current="page"':'')+'>Inicio</button>'
+    + '<button type="button" class="btn" data-ir="buscar"'+(vistaActual==="buscar"?' aria-current="page"':'')+'>Buscar</button>'
+    + '<button type="button" class="btn sos" data-ir="sos">Emergencia</button>';
+}
+document.addEventListener("click", (ev) => {
+  const b = ev.target.closest("[data-ir]");
+  if(b) ir(b.getAttribute("data-ir"));
+});
+$("btnBuscar").addEventListener("click", () => ir("buscar"));
+$("btnSOS").addEventListener("click", () => ir("sos"));
+
+/* ============================================================================
+   PANTALLA DE INICIO
+   ========================================================================= */
+function frasesDelDia(d){
+  if(d.frases && d.frases.length) return d.frases;
+  // Día de repaso: junta frases de los días indicados, priorizando las vencidas.
+  const pool = [];
+  (d.repaso||[]).forEach(n => {
+    const dd = CURSO.find(x => x.dia === n);
+    if(dd) (dd.frases||[]).forEach(f => pool.push(f));
+  });
+  const venc = pool.filter(f => vencida(idFrase(f)));
+  const resto = mezclar(pool.filter(f => !vencida(idFrase(f))));
+  const sel = venc.concat(resto).slice(0, 12);
+  return sel.length ? sel : pool.slice(0, 12);
+}
+
+function pintarInicio(){
+  const dia = E.dia;
+  const d = CURSO.find(x => x.dia === dia) || CURSO[0];
+  const pend = vencidas().length;
+  const hechos = E.hechos.length;
+
+  let html = ""
+  + '<p class="kicker">Inglés de calle para Nueva York</p>'
+  + '<h2 id="tInicio">14 días para arreglártelas solo</h2>'
+  + '<div class="franja" aria-hidden="true">'
+    + '<i style="background:var(--mta-rojo)"></i><i style="background:var(--mta-naranja)"></i>'
+    + '<i style="background:var(--mta-amarillo)"></i><i style="background:var(--mta-verde)"></i>'
+    + '<i style="background:var(--mta-azul)"></i><i style="background:var(--mta-violeta)"></i>'
+  + '</div>'
+  + '<div class="metricas">'
+    + '<div class="metrica"><div class="n">'+dia+'</div><div class="r">Día de hoy</div></div>'
+    + '<div class="metrica"><div class="n">'+(E.racha||0)+'</div><div class="r">Días seguidos</div></div>'
+    + '<div class="metrica"><div class="n">'+porcentaje()+'%</div><div class="r">Dominadas</div></div>'
+  + '</div>'
+  + '<div class="progreso" role="img" aria-label="Progreso del curso: '+porcentaje()+' por ciento de las frases dominadas">'
+    + '<i style="width:'+porcentaje()+'%"></i></div>'
+  + '<p class="apagado" style="font-size:14px;margin-top:6px">'+dominadas()+' de '+TODAS.length+' frases dominadas · '+hechos+' de '+CURSO.length+' días terminados</p>';
+
+  if(pend > 0){
+    html += '<div class="dato"><div class="t"><span aria-hidden="true">&#8635;</span> Repaso pendiente</div>'
+          + 'Tenés <strong>'+pend+'</strong> '+(pend===1?"frase que se venció":"frases que se vencieron")+' de días anteriores. Arrancan solas al empezar el día.</div>';
+  }
+
+  html += '<button type="button" class="btn primario grande" id="btnEmpezar">Empezar el día '+dia+'</button>'
+        + '<p class="apagado" style="font-size:15px;margin:10px 0 20px">'+esc(d.titulo)+' · 15 a 20 minutos</p>';
+
+  html += '<h3>Los 14 días</h3><ul class="lista-dias">';
+  CURSO.forEach(x => {
+    const listo = E.hechos.indexOf(x.dia) >= 0;
+    const claro = (x.color === "--mta-amarillo" || x.color === "--mta-gris");
+    html += '<li><button type="button" class="dia-item'+(x.dia===dia?" actual":"")+'" data-dia="'+x.dia+'">'
+      + '<span class="disco chico'+(claro?" sobre-claro":"")+'" style="background:var('+x.color+')" aria-hidden="true">'+esc(x.linea)+'</span>'
+      + '<span class="txt"><span class="t">Día '+x.dia+' · '+esc(x.titulo)+'</span>'
+      + '<span class="s">'+((x.frases&&x.frases.length)? x.frases.length+" frases nuevas" : "Repaso, sin contenido nuevo")+'</span></span>'
+      + '<span class="est'+(listo?" listo":"")+'">'+(listo?"Hecho":(x.dia===dia?"Hoy":""))+'</span>'
+      + '</button></li>';
+  });
+  html += '</ul>';
+
+  html += '<div class="panel plano" style="margin-top:18px">'
+    + '<h3>Ajustes</h3>'
+    + (Audio_.ok
+        ? '<p class="apagado" style="font-size:15px">Velocidad del audio: <strong>'+(E.lento?"lento":"normal")+'</strong></p><div class="audio-fila">'+botonVelocidad()+botonAudio("Excuse me, how much is it?","mini")+'</div>'
+        : '<p class="apagado" style="font-size:15px">Este navegador no tiene voces en inglés disponibles, así que los botones de audio y los ejercicios de escuchar están desactivados. Todo lo demás funciona igual.</p>')
+    + (almacenamientoOk ? "" : '<p class="apagado" style="font-size:15px"><strong>Ojo:</strong> este navegador no deja guardar el progreso. Podés usar la app igual, pero al cerrar se pierde lo avanzado.</p>')
+    + '<button type="button" class="btn bloque" id="btnReiniciar">Reiniciar progreso</button>'
+  + '</div>';
+
+  VISTAS.inicio.innerHTML = html;
+  $("btnEmpezar").addEventListener("click", () => abrirDia(E.dia));
+  VISTAS.inicio.querySelectorAll("[data-dia]").forEach(b => {
+    b.addEventListener("click", () => abrirDia(Number(b.getAttribute("data-dia"))));
+  });
+  $("btnReiniciar").addEventListener("click", confirmarReinicio);
+}
+
+function confirmarReinicio(){
+  const cont = $("modales");
+  cont.innerHTML = '<div class="velo" id="velo"><div class="modal" role="dialog" aria-modal="true" aria-labelledby="mTit">'
+    + '<h3 id="mTit">¿Reiniciar todo el progreso?</h3>'
+    + '<p>Se borran el día en el que vas, la racha y el estado de todas las frases. No se puede deshacer.</p>'
+    + '<div class="fila-btns"><button type="button" class="btn" id="mNo">No, volver</button>'
+    + '<button type="button" class="btn primario" id="mSi">Sí, reiniciar</button></div></div></div>';
+  const cerrar = () => { cont.innerHTML = ""; const b = $("btnReiniciar"); if(b) b.focus(); };
+  $("mNo").addEventListener("click", cerrar);
+  $("mSi").addEventListener("click", () => { borrarTodo(); cerrar(); ir("inicio"); avisar("Progreso reiniciado"); });
+  $("velo").addEventListener("click", (ev) => { if(ev.target.id === "velo") cerrar(); });
+  document.addEventListener("keydown", function escKey(ev){
+    if(ev.key === "Escape"){ cerrar(); document.removeEventListener("keydown", escKey); }
+  });
+  $("mSi").focus();
+}
+
+/* ============================================================================
+   EL DÍA — tres etapas: Aprender, Practicar, Usar
+   ========================================================================= */
+let sesion = null;
+
+function abrirDia(n){
+  const d = CURSO.find(x => x.dia === n);
+  if(!d) return;
+  const propias = frasesDelDia(d);
+  const idsPropias = propias.map(idFrase);
+  const repasoIds = vencidas().filter(id => idsPropias.indexOf(id) < 0).slice(0, 6);
+  sesion = {
+    dato: d,
+    frases: propias,
+    repaso: repasoIds.map(id => POR_ID[id].f),
+    etapa: 0,
+    indice: -1,
+    ejercicios: null,
+    ejIndice: 0,
+    aciertos: 0,
+    dlgTurno: 0,
+    dlgHistorial: [],
+    dlgFallos: 0
+  };
+  ir("dia");
+}
+
+function pintarDia(){
+  if(!sesion){ ir("inicio"); return; }
+  if(sesion.etapa === 0) etapaAprender();
+  else if(sesion.etapa === 1) etapaPracticar();
+  else etapaUsar();
+}
+
+function cabeceraPasos(){
+  const e = sesion.etapa;
+  const p = (i, txt) => '<div class="paso'+(i<e?" hecho":"")+'"'+(i===e?' aria-current="step"':'')+'>'+(i<e?"&#10003; ":"")+txt+'</div>';
+  return '<div class="pasos" role="group" aria-label="Etapas del día">'+p(0,"Aprender")+p(1,"Practicar")+p(2,"Usar")+'</div>';
+}
+
+/* ---------- Etapa 1: APRENDER ---------- */
+function etapaAprender(){
+  const d = sesion.dato;
+  const total = sesion.frases.length;
+  const i = sesion.indice;
+
+  if(i < 0){
+    // Portada del día
+    let html = cabeceraPasos()
+      + '<p class="kicker">Día '+d.dia+(d.repaso?" · Repaso":"")+'</p>'
+      + '<h2 id="tDia">'+esc(d.titulo)+'</h2>'
+      + '<p>'+esc(d.intro)+'</p>';
+    if(sesion.repaso.length){
+      html += '<div class="dato"><div class="t"><span aria-hidden="true">&#8635;</span> Primero, el repaso</div>'
+            + 'Antes de lo nuevo vas a ver '+sesion.repaso.length+' '+(sesion.repaso.length===1?"frase":"frases")+' de días anteriores que se te vencieron.</div>';
+    }
+    html += '<button type="button" class="btn primario grande" data-paso="arranque">Arrancar</button>';
+    VISTAS.dia.innerHTML = html;
+    VISTAS.dia.querySelector('[data-paso="arranque"]').addEventListener("click", () => { sesion.indice = 0; pintarDia(); });
+    return;
+  }
+
+  if(i >= total){
+    let html = cabeceraPasos() + '<h2 id="tDia">Listo el repaso de hoy</h2>'
+      + '<p>Viste las '+total+' frases del día. Ahora se practican: si te equivocás no pasa nada, la frase vuelve a la primera caja y la vas a ver de nuevo.</p>';
+    (d.datos||[]).forEach(x => {
+      html += '<div class="dato"><div class="t"><span aria-hidden="true">&#9432;</span> '+esc(x.t)+'</div>'+esc(x.d)+'</div>';
+    });
+    html += '<div class="fila-btns"><button type="button" class="btn" data-paso="atras">Volver a ver</button>'
+          + '<button type="button" class="btn primario" data-paso="practicar">Practicar</button></div>';
+    VISTAS.dia.innerHTML = html;
+    VISTAS.dia.querySelector('[data-paso="atras"]').addEventListener("click", () => { sesion.indice = 0; pintarDia(); });
+    VISTAS.dia.querySelector('[data-paso="practicar"]').addEventListener("click", () => { sesion.etapa = 1; pintarDia(); });
+    return;
+  }
+
+  const f = sesion.frases[i];
+  const esRepaso = sesion.repaso.indexOf(f) >= 0;
+  let html = cabeceraPasos()
+    + '<p class="contador">Frase '+(i+1)+' de '+total+(esRepaso?" · repaso":"")+'</p>'
+    + '<div class="panel">'
+      + '<p class="frase-en" id="tDia">'+esc(f.en)+'</p>'
+      + '<p class="frase-pron">'+esc(f.pron)+'</p>'
+      + '<div class="audio-fila">'+botonAudio(f.en)+botonVelocidad()+'</div>'
+      + '<p class="frase-es">'+esc(f.es)+'</p>'
+      + '<p class="frase-uso">'+esc(f.uso)+'</p>'
+    + '</div>'
+    + '<div class="fila-btns">'
+      + '<button type="button" class="btn" data-paso="prev"'+(i===0?" disabled":"")+'>Anterior</button>'
+      + '<button type="button" class="btn primario" data-paso="next">'+(i===total-1?"Terminar":"Siguiente")+'</button>'
+    + '</div>';
+  VISTAS.dia.innerHTML = html;
+  VISTAS.dia.querySelector('[data-paso="prev"]').addEventListener("click", () => { sesion.indice--; pintarDia(); });
+  VISTAS.dia.querySelector('[data-paso="next"]').addEventListener("click", () => { sesion.indice++; pintarDia(); });
+  if(Audio_.ok) Audio_.decir(f.en);
+}
+
+/* ---------- Etapa 2: PRACTICAR ---------- */
+function distractores(correcta, campo, n){
+  const pool = TODAS.map(x => x.f).filter(f => f[campo] && f[campo] !== correcta[campo]);
+  const mismoDia = sesion.frases.filter(f => f !== correcta);
+  const orden = mezclar(mismoDia).concat(mezclar(pool));
+  const out = [];
+  orden.forEach(f => {
+    if(out.length >= n) return;
+    if(f[campo] === correcta[campo]) return;
+    if(out.some(o => o[campo] === f[campo])) return;
+    out.push(f);
+  });
+  return out;
+}
+
+function armarEjercicios(){
+  const d = sesion.dato;
+  const base = sesion.repaso.concat(sesion.frases.filter(f => sesion.repaso.indexOf(f) < 0));
+  const tipos = ["enEs","esEn","armar"];
+  if(Audio_.ok) tipos.push("escucha");
+  const ejs = [];
+
+  base.forEach((f, k) => {
+    const t = tipos[(k + Math.floor(Math.random()*tipos.length)) % tipos.length];
+    ejs.push(construir(t, f));
+  });
+
+  // Huecos de diálogo: se arman con los turnos del diálogo del día.
+  const turnos = (d.dialogo && d.dialogo.turnos) ? d.dialogo.turnos.filter(t => t.opciones && t.opciones.length >= 3) : [];
+  mezclar(turnos).slice(0, 2).forEach(t => ejs.push(construirHueco(d, t)));
+
+  return mezclar(ejs.filter(Boolean)).slice(0, 16);
+}
+
+function construir(tipo, f){
+  if(tipo === "enEs"){
+    const otras = distractores(f, "es", 3);
+    if(otras.length < 3) return construir("armar", f);
+    return { tipo, f, enunciado:"¿Qué quiere decir esta frase?", muestra:f.en, pron:f.pron,
+             opciones: mezclar([{txt:f.es, ok:true}].concat(otras.map(o => ({txt:o.es, ok:false})))) };
+  }
+  if(tipo === "esEn"){
+    const otras = distractores(f, "en", 3);
+    if(otras.length < 3) return construir("armar", f);
+    return { tipo, f, enunciado:"¿Cómo se dice esto en inglés?", muestra:f.es,
+             opciones: mezclar([{txt:f.en, ok:true, pron:f.pron}].concat(otras.map(o => ({txt:o.en, ok:false, pron:o.pron})))) };
+  }
+  if(tipo === "escucha"){
+    const otras = distractores(f, "en", 3);
+    if(otras.length < 3) return construir("armar", f);
+    return { tipo, f, enunciado:"Escuchá y elegí qué se dijo", muestra:null,
+             opciones: mezclar([{txt:f.en, ok:true, pron:f.pron}].concat(otras.map(o => ({txt:o.en, ok:false, pron:o.pron})))) };
+  }
+  // armar
+  const palabras = f.en.split(/\s+/).filter(Boolean);
+  if(palabras.length < 2 || palabras.length > 9) return construir("enEs", f);
+  return { tipo:"armar", f, enunciado:"Ordená las palabras para decir esto:", muestra:f.es, banco:mezclar(palabras.map((p,i)=>({p,i}))) };
+}
+
+function construirHueco(d, turno){
+  const correcta = turno.opciones.find(o => o.ok) || turno.opciones[0];
+  const f = { en:correcta.en, pron:correcta.pron, es:correcta.es, uso:"" };
+  return { tipo:"hueco", f, personaje:d.dialogo.personaje, dice:turno.ellos,
+           enunciado:"Completá lo que te toca decir a vos:",
+           opciones: mezclar(turno.opciones.map(o => ({ txt:o.en, ok:!!o.ok, pron:o.pron, es:o.es, por:o.reaccion }))) };
+}
+
+function etapaPracticar(){
+  if(!sesion.ejercicios){ sesion.ejercicios = armarEjercicios(); sesion.ejIndice = 0; sesion.aciertos = 0; }
+  const ejs = sesion.ejercicios;
+  const i = sesion.ejIndice;
+
+  if(i >= ejs.length){
+    const pct = ejs.length ? Math.round(sesion.aciertos*100/ejs.length) : 100;
+    VISTAS.dia.innerHTML = cabeceraPasos()
+      + '<h2 id="tDia">'+sesion.aciertos+' de '+ejs.length+' bien</h2>'
+      + '<div class="progreso" role="img" aria-label="'+pct+' por ciento de aciertos"><i style="width:'+pct+'%"></i></div>'
+      + '<p style="margin-top:12px">'+(pct>=80
+          ? "Muy bien. Las que erraste vuelven a la caja 1 y te las voy a mostrar en los próximos días."
+          : "Está perfecto equivocarse: así funciona el repaso. Las que erraste vuelven a aparecer pronto.")+'</p>'
+      + '<div class="fila-btns">'
+        + '<button type="button" class="btn" data-paso="repractica">Practicar otra vez</button>'
+        + '<button type="button" class="btn primario" data-paso="usar">Usarlo en la calle</button></div>';
+    VISTAS.dia.querySelector('[data-paso="repractica"]').addEventListener("click", () => {
+      sesion.ejercicios = null; pintarDia();
+    });
+    VISTAS.dia.querySelector('[data-paso="usar"]').addEventListener("click", () => { sesion.etapa = 2; pintarDia(); });
+    return;
+  }
+
+  const ej = ejs[i];
+  let cuerpo = "";
+
+  if(ej.tipo === "enEs" || ej.tipo === "esEn" || ej.tipo === "escucha"){
+    cuerpo = '<div class="panel">';
+    if(ej.tipo === "escucha"){
+      cuerpo += '<p class="apagado">Tocá para escuchar las veces que quieras.</p>'
+             +  '<div class="audio-fila">'+botonAudio(ej.f.en)+botonVelocidad()+'</div>';
+    } else {
+      cuerpo += '<p class="frase-en" style="font-size:clamp(24px,7vw,34px)">'+esc(ej.muestra)+'</p>';
+      if(ej.tipo === "enEs"){
+        cuerpo += '<p class="frase-pron">'+esc(ej.pron)+'</p><div class="audio-fila">'+botonAudio(ej.f.en)+'</div>';
+      }
+    }
+    cuerpo += '</div><div class="opciones" role="group" aria-label="Opciones">';
+    ej.opciones.forEach((o, k) => {
+      cuerpo += '<button type="button" class="opcion" data-op="'+k+'"><span class="marca" aria-hidden="true">'+String.fromCharCode(65+k)+'</span><span>'+esc(o.txt)+'</span></button>';
+    });
+    cuerpo += '</div>';
+  }
+  else if(ej.tipo === "armar"){
+    cuerpo = '<div class="panel"><p class="frase-es" style="margin:0">'+esc(ej.muestra)+'</p></div>'
+      + '<div class="zona-armado" id="armado" aria-label="Tu frase" role="group"></div>'
+      + '<div class="zona-banco" id="banco" role="group" aria-label="Palabras para ordenar"></div>'
+      + '<div class="fila-btns"><button type="button" class="btn" id="btnLimpiar">Borrar</button>'
+      + '<button type="button" class="btn primario" id="btnComprobar" disabled>Comprobar</button></div>';
+  }
+  else if(ej.tipo === "hueco"){
+    cuerpo = '<div class="panel">'
+      + '<p class="dialogo-linea"><span class="quien">'+esc(ej.personaje)+'</span>'+esc(ej.dice.en)+'</p>'
+      + (ej.dice.es ? '<p class="apagado" style="font-size:15px;margin:0 0 10px">'+esc(ej.dice.es)+'</p>' : "")
+      + (Audio_.ok && ej.dice.en ? '<div class="audio-fila">'+botonAudio(ej.dice.en)+'</div>' : "")
+      + '<p class="dialogo-linea"><span class="quien">Vos</span><span class="hueco">&nbsp;?&nbsp;</span></p>'
+      + '</div><div class="opciones" role="group" aria-label="Opciones">';
+    ej.opciones.forEach((o, k) => {
+      cuerpo += '<button type="button" class="opcion" data-op="'+k+'"><span class="marca" aria-hidden="true">'+String.fromCharCode(65+k)+'</span><span>'+esc(o.txt)+'<br><small class="apagado">'+esc(o.es)+'</small></span></button>';
+    });
+    cuerpo += '</div>';
+  }
+
+  VISTAS.dia.innerHTML = cabeceraPasos()
+    + '<p class="contador">Ejercicio '+(i+1)+' de '+ejs.length+'</p>'
+    + '<h2 id="tDia" style="font-size:20px">'+esc(ej.enunciado)+'</h2>'
+    + cuerpo
+    + '<div id="zonaFeedback"></div>';
+
+  if(ej.tipo === "escucha" && Audio_.ok) setTimeout(() => Audio_.decir(ej.f.en), 250);
+
+  if(ej.tipo === "armar") montarArmado(ej);
+  else VISTAS.dia.querySelectorAll("[data-op]").forEach(b => {
+    b.addEventListener("click", () => responder(ej, Number(b.getAttribute("data-op"))));
+  });
+}
+
+function montarArmado(ej){
+  const armado = $("armado"), banco = $("banco");
+  const btnC = $("btnComprobar"), btnL = $("btnLimpiar");
+  let puestas = [];
+  function pintar(){
+    armado.innerHTML = puestas.length
+      ? puestas.map((w,k) => '<button type="button" class="ficha" data-quitar="'+k+'">'+esc(w.p)+'</button>').join("")
+      : '<span class="apagado" style="padding:8px">Tocá las palabras de abajo en orden.</span>';
+    banco.innerHTML = ej.banco.map((w,k) => '<button type="button" class="ficha'+(puestas.indexOf(w)>=0?" usada":"")+'" data-poner="'+k+'"'+(puestas.indexOf(w)>=0?' tabindex="-1" aria-hidden="true"':'')+'>'+esc(w.p)+'</button>').join("");
+    btnC.disabled = puestas.length !== ej.banco.length;
+    armado.querySelectorAll("[data-quitar]").forEach(b => b.addEventListener("click", () => {
+      puestas.splice(Number(b.getAttribute("data-quitar")),1); pintar();
+    }));
+    banco.querySelectorAll("[data-poner]").forEach(b => b.addEventListener("click", () => {
+      const w = ej.banco[Number(b.getAttribute("data-poner"))];
+      if(puestas.indexOf(w) < 0){ puestas.push(w); pintar(); }
+    }));
+  }
+  pintar();
+  btnL.addEventListener("click", () => { puestas = []; pintar(); });
+  btnC.addEventListener("click", () => {
+    const dicho = puestas.map(w => w.p).join(" ");
+    responder(ej, null, dicho);
+  });
+}
+
+function responder(ej, indice, textoArmado){
+  const zona = $("zonaFeedback");
+  let acerto, explic;
+
+  if(ej.tipo === "armar"){
+    acerto = normalizar(textoArmado) === normalizar(ej.f.en);
+    explic = acerto
+      ? 'Así se dice: <strong>'+esc(ej.f.en)+'</strong> — '+esc(ej.f.pron)+'.'
+      : 'El orden correcto es <strong>'+esc(ej.f.en)+'</strong> — '+esc(ej.f.pron)+'. Vos pusiste: '+esc(textoArmado)+'.';
+    document.querySelectorAll("#btnComprobar,#btnLimpiar,#banco .ficha,#armado .ficha").forEach(b => b.disabled = true);
+  } else {
+    const op = ej.opciones[indice];
+    acerto = !!op.ok;
+    const correcta = ej.opciones.find(o => o.ok);
+    VISTAS.dia.querySelectorAll("[data-op]").forEach(b => {
+      const k = Number(b.getAttribute("data-op"));
+      b.disabled = true;
+      if(ej.opciones[k].ok) b.classList.add("ok");
+      else if(k === indice) b.classList.add("mal");
+      else b.classList.add("tenue");
+    });
+    if(ej.tipo === "hueco"){
+      explic = acerto
+        ? esc(op.por || "")
+        : (op.por ? esc(op.por)+' La que iba es <strong>'+esc(correcta.txt)+'</strong> ('+esc(correcta.es)+').'
+                  : 'La que iba es <strong>'+esc(correcta.txt)+'</strong> ('+esc(correcta.es)+').');
+    } else if(acerto){
+      explic = '<strong>'+esc(ej.f.en)+'</strong> — '+esc(ej.f.pron)+'. '+esc(ej.f.uso||"");
+    } else if(ej.tipo === "enEs"){
+      const otra = TODAS.find(x => x.f.es === op.txt);
+      explic = '<strong>'+esc(ej.f.en)+'</strong> quiere decir '+esc(ej.f.es)+'.'
+             + (otra ? ' Lo que elegiste es lo que quiere decir <strong>'+esc(otra.f.en)+'</strong>.' : '');
+    } else {
+      const otra = TODAS.find(x => x.f.en === op.txt);
+      explic = 'Se dice <strong>'+esc(ej.f.en)+'</strong> — '+esc(ej.f.pron)+'.'
+             + (otra ? ' Lo que elegiste, '+esc(otra.f.en)+', quiere decir '+esc(otra.f.es)+'.' : '')
+             + ' ' + esc(ej.f.uso||"");
+    }
+  }
+
+  if(POR_ID[idFrase(ej.f)]) registrar(idFrase(ej.f), acerto);
+  if(acerto) sesion.aciertos++;
+
+  zona.innerHTML = '<div class="feedback '+(acerto?"ok":"mal")+'">'
+    + '<div class="titulo"><span aria-hidden="true">'+(acerto?"&#10003;":"&#10007;")+'</span> '+(acerto?"Bien":"No era esa")+'</div>'
+    + '<div>'+explic+'</div></div>'
+    + (Audio_.ok ? '<div class="audio-fila">'+botonAudio(ej.f.en)+botonVelocidad()+'</div>' : "")
+    + '<button type="button" class="btn primario bloque" id="btnSeguir">Seguir</button>';
+  avisar((acerto?"Correcto. ":"Incorrecto. ") + (ej.f.en));
+  $("btnSeguir").addEventListener("click", () => { sesion.ejIndice++; pintarDia(); });
+  $("btnSeguir").focus();
+}
+
+/* ---------- Etapa 3: USAR (simulacro de conversación) ---------- */
+function etapaUsar(){
+  const d = sesion.dato, dlg = d.dialogo;
+  const t = sesion.dlgTurno;
+
+  let html = cabeceraPasos();
+
+  if(t === 0 && !sesion.dlgHistorial.length){
+    html += '<p class="kicker">Simulacro</p><h2 id="tDia">'+esc(dlg.personaje)+'</h2>'
+      + '<div class="escena">'+esc(dlg.escena)+'</div>'
+      + '<p>Vas a tener que elegir qué contestar en cada turno. Si elegís mal, mirá cómo reacciona y probá de nuevo: nadie te está tomando examen.</p>'
+      + '<button type="button" class="btn primario grande" id="btnArrancaDlg">Empezar la conversación</button>';
+    VISTAS.dia.innerHTML = html;
+    $("btnArrancaDlg").addEventListener("click", () => { sesion.dlgHistorial = [{tipo:"inicio"}]; pintarDia(); });
+    return;
+  }
+
+  if(t >= dlg.turnos.length){
+    terminarDia();
+    return;
+  }
+
+  const turno = dlg.turnos[t];
+  html += '<p class="contador">Turno '+(t+1)+' de '+dlg.turnos.length+' · '+esc(dlg.personaje)+'</p>'
+        + '<div class="escena">'+esc(dlg.escena)+'</div>'
+        + '<div class="chat" id="chat">';
+
+  sesion.dlgHistorial.forEach(h => {
+    if(h.tipo === "ellos"){
+      html += '<div class="burbuja ellos">'+esc(h.en)+(h.pron?'<span class="pron">'+esc(h.pron)+'</span>':"")+(h.es?'<span class="trad">'+esc(h.es)+'</span>':"")+'</div>';
+    } else if(h.tipo === "vos"){
+      html += '<div class="burbuja vos">'+esc(h.en)+(h.pron?'<span class="pron">'+esc(h.pron)+'</span>':"")+(h.es?'<span class="trad">'+esc(h.es)+'</span>':"")+'</div>';
+    } else if(h.tipo === "nota"){
+      html += '<div class="burbuja nota">'+esc(h.txt)+'</div>';
+    }
+  });
+
+  html += '<div class="burbuja ellos" id="turnoActual">'+esc(turno.ellos.en)
+        + (turno.ellos.pron?'<span class="pron">'+esc(turno.ellos.pron)+'</span>':"")
+        + (turno.ellos.es?'<span class="trad">'+esc(turno.ellos.es)+'</span>':"")
+        + '</div></div>';
+
+  if(turno.nota){ html += '<div class="dato"><div class="t"><span aria-hidden="true">&#9432;</span> Ojo</div>'+esc(turno.nota)+'</div>'; }
+  if(Audio_.ok && /[a-z]/i.test(turno.ellos.en)){
+    html += '<div class="audio-fila">'+botonAudio(turno.ellos.en.replace(/\(.*?\)/g,"").trim() || turno.ellos.en)+botonVelocidad()+'</div>';
+  }
+
+  html += '<h3 id="tDia">¿Qué contestás?</h3><div class="opciones" role="group" aria-label="Qué contestás">';
+  turno.opciones.forEach((o, k) => {
+    html += '<button type="button" class="opcion" data-dlg="'+k+'"><span class="marca" aria-hidden="true">'+String.fromCharCode(65+k)+'</span>'
+      + '<span>'+esc(o.en)+'<br><small class="apagado">'+esc(o.pron)+' · '+esc(o.es)+'</small></span></button>';
+  });
+  html += '</div><div id="zonaFeedback"></div>';
+
+  VISTAS.dia.innerHTML = html;
+  VISTAS.dia.querySelectorAll("[data-dlg]").forEach(b => {
+    b.addEventListener("click", () => responderDialogo(turno, Number(b.getAttribute("data-dlg"))));
+  });
+  if(Audio_.ok && /[a-z]/i.test(turno.ellos.en)) Audio_.decir(turno.ellos.en.replace(/\(.*?\)/g,"").trim() || turno.ellos.en);
+}
+
+function responderDialogo(turno, k){
+  const o = turno.opciones[k];
+  const zona = $("zonaFeedback");
+  VISTAS.dia.querySelectorAll("[data-dlg]").forEach(b => {
+    const j = Number(b.getAttribute("data-dlg"));
+    b.disabled = true;
+    if(j === k) b.classList.add(o.ok ? "ok" : "mal");
+    else b.classList.add("tenue");
+  });
+
+  if(POR_ID[idFrase({en:o.en})]) registrar(idFrase({en:o.en}), !!o.ok);
+
+  zona.innerHTML = '<div class="feedback '+(o.ok?"ok":"mal")+'">'
+    + '<div class="titulo"><span aria-hidden="true">'+(o.ok?"&#10003;":"&#10007;")+'</span> '+(o.ok?"Funcionó":"Salió mal")+'</div>'
+    + '<div>'+esc(o.reaccion)+'</div></div>'
+    + (Audio_.ok ? '<div class="audio-fila">'+botonAudio(o.en)+botonVelocidad()+'</div>' : "")
+    + (o.ok
+        ? '<button type="button" class="btn primario bloque" id="btnSeguirDlg">Seguir</button>'
+        : '<button type="button" class="btn primario bloque" id="btnReintentar">Probar otra vez</button>');
+  avisar(o.ok ? "Correcto" : "Incorrecto");
+
+  if(o.ok){
+    $("btnSeguirDlg").addEventListener("click", () => {
+      sesion.dlgHistorial.push({ tipo:"ellos", en:turno.ellos.en, pron:turno.ellos.pron, es:turno.ellos.es });
+      sesion.dlgHistorial.push({ tipo:"vos", en:o.en, pron:o.pron, es:o.es });
+      sesion.dlgTurno++;
+      pintarDia();
+    });
+    $("btnSeguirDlg").focus();
+  } else {
+    sesion.dlgFallos++;
+    $("btnReintentar").addEventListener("click", () => pintarDia());
+    $("btnReintentar").focus();
+  }
+}
+
+function terminarDia(){
+  const d = sesion.dato;
+  if(E.hechos.indexOf(d.dia) < 0) E.hechos.push(d.dia);
+  if(E.dia === d.dia && d.dia < CURSO.length) E.dia = d.dia + 1;
+  marcarSesion();
+  guardar();
+
+  const quedan = CURSO.length - E.hechos.length;
+  VISTAS.dia.innerHTML = '<p class="kicker">Día '+d.dia+' terminado</p>'
+    + '<h2 id="tDia">Lo hiciste entero</h2>'
+    + '<div class="franja" aria-hidden="true"><i style="background:var(--mta-verde)"></i><i style="background:var(--mta-verde)"></i><i style="background:var(--mta-amarillo)"></i></div>'
+    + '<p>Cerraste la conversación con '+esc(d.dialogo.personaje).toLowerCase()+'. '
+    + (sesion.dlgFallos ? 'Te equivocaste '+sesion.dlgFallos+' '+(sesion.dlgFallos===1?"vez":"veces")+' y lo resolviste igual: eso es exactamente lo que va a pasar en la calle.' : 'Sin un solo error.')+'</p>'
+    + '<div class="metricas">'
+      + '<div class="metrica"><div class="n">'+(E.racha||0)+'</div><div class="r">Días seguidos</div></div>'
+      + '<div class="metrica"><div class="n">'+porcentaje()+'%</div><div class="r">Dominadas</div></div>'
+      + '<div class="metrica"><div class="n">'+quedan+'</div><div class="r">Días por hacer</div></div>'
+    + '</div>'
+    + '<p class="apagado">Volvé mañana: las frases que erraste se te van a mezclar al principio del próximo día.</p>'
+    + '<div class="fila-btns"><button type="button" class="btn" data-paso="rehacer">Rehacer este día</button>'
+    + '<button type="button" class="btn primario" data-ir="inicio">Ir al inicio</button></div>';
+  VISTAS.dia.querySelector('[data-paso="rehacer"]').addEventListener("click", () => abrirDia(d.dia));
+  avisar("Día terminado");
+}
+
+/* ============================================================================
+   BUSCADOR — en español o en inglés, sin tildes ni mayúsculas, en vivo
+   ========================================================================= */
+function pintarBuscar(){
+  if(VISTAS.buscar.dataset.listo === "1"){ const i = $("q"); if(i) i.focus(); return; }
+  VISTAS.buscar.innerHTML = '<p class="kicker">Buscador</p>'
+    + '<h2>Buscá cualquier frase</h2>'
+    + '<div class="buscador-caja">'
+      + '<label class="sr" for="q">Buscar una frase en español o en inglés</label>'
+      + '<input type="search" id="q" placeholder="cuánto cuesta, check, baño, subte…" autocomplete="off" autocorrect="off" spellcheck="false">'
+    + '</div>'
+    + '<div id="resultados" aria-live="polite"></div>';
+  VISTAS.buscar.dataset.listo = "1";
+  const inp = $("q");
+  inp.addEventListener("input", () => buscar(inp.value));
+  buscar("");
+  inp.focus();
+}
+
+function resaltar(txt, q){
+  if(!q) return esc(txt);
+  const n = normalizar(txt), nq = normalizar(q);
+  const p = n.indexOf(nq);
+  if(p < 0 || !nq) return esc(txt);
+  // Mapea la posición del texto normalizado al original contando caracteres útiles.
+  let vistos = 0, ini = -1, fin = -1;
+  for(let i = 0; i < txt.length; i++){
+    const c = normalizar(txt[i]);
+    if(ini < 0 && vistos === p && c) ini = i;
+    if(c) vistos += c.length;
+    if(ini >= 0 && vistos >= p + nq.length){ fin = i + 1; break; }
+  }
+  if(ini < 0) return esc(txt);
+  if(fin < 0) fin = txt.length;
+  return esc(txt.slice(0,ini)) + "<mark>" + esc(txt.slice(ini,fin)) + "</mark>" + esc(txt.slice(fin));
+}
+
+function buscar(q){
+  const cont = $("resultados");
+  const nq = normalizar(q);
+  let lista = TODAS;
+  if(nq){
+    lista = TODAS.filter(x => normalizar(x.f.en).indexOf(nq) >= 0
+                           || normalizar(x.f.es).indexOf(nq) >= 0
+                           || normalizar(x.f.pron).indexOf(nq) >= 0
+                           || normalizar(x.f.uso||"").indexOf(nq) >= 0);
+    lista = lista.slice().sort((a,b) => {
+      const pa = Math.min(...[normalizar(a.f.en).indexOf(nq), normalizar(a.f.es).indexOf(nq)].filter(v=>v>=0).concat([99]));
+      const pb = Math.min(...[normalizar(b.f.en).indexOf(nq), normalizar(b.f.es).indexOf(nq)].filter(v=>v>=0).concat([99]));
+      return pa - pb;
+    });
+  }
+  if(!lista.length){
+    cont.innerHTML = '<div class="panel plano"><p style="margin:0">No hay ninguna frase con <strong>'+esc(q)+'</strong>. Probá con una palabra más corta: <em>cuenta</em>, <em>baño</em>, <em>train</em>.</p></div>';
+    return;
+  }
+  const tope = lista.slice(0, 60);
+  cont.innerHTML = '<p class="contador" style="margin-bottom:8px">'+lista.length+' '+(lista.length===1?"frase":"frases")+(nq?"":" en total")+'</p>'
+    + tope.map(x => {
+      const claro = (x.color === "--mta-amarillo" || x.color === "--mta-gris");
+      return '<div class="resultado"><div class="resultado-fila">'
+        + '<span class="disco chico'+(claro?" sobre-claro":"")+'" style="background:var('+x.color+')" aria-hidden="true">'+esc(x.linea)+'</span>'
+        + '<span class="txt">'
+          + '<span class="en">'+resaltar(x.f.en, q)+'</span><br>'
+          + '<span class="pr">'+resaltar(x.f.pron, q)+'</span><br>'
+          + '<span class="es">'+resaltar(x.f.es, q)+'</span>'
+          + '<span class="de">'+(x.dia ? "Día "+x.dia+" · "+esc(x.tituloDia) : "Emergencia")+'</span>'
+        + '</span>'
+        + (Audio_.ok ? '<span>'+botonAudio(x.f.en, "mini")+'</span>' : "")
+      + '</div></div>';
+    }).join("")
+    + (lista.length > tope.length ? '<p class="apagado">Se muestran las primeras '+tope.length+'. Escribí algo más para afinar.</p>' : "");
+}
+
+/* ============================================================================
+   MODO EMERGENCIA — de un solo toque desde cualquier pantalla
+   ========================================================================= */
+function pintarSOS(){
+  VISTAS.sos.innerHTML = '<div class="sos-cabecera">'
+    + '<h2>Emergencia</h2>'
+    + '<p style="margin:0 0 4px">Policía, bomberos y ambulancia. Gratis desde cualquier teléfono, aunque no tengas chip ni saldo.</p>'
+    + '<div class="sos-911">911</div>'
+    + '<p style="margin:6px 0 0"><strong>Se dice:</strong> nine one one (náin uán UÁN)</p>'
+  + '</div>'
+  + '<div class="dato"><div class="t"><span aria-hidden="true">&#9873;</span> Pedí intérprete en español</div>'
+    + 'Apenas atiendan, decí <strong>Spanish, please</strong> (SPÁ-nish pliis) o <strong>I need an interpreter in Spanish</strong>. '
+    + 'Es gratis, es tu derecho y tardan menos de un minuto en poner a alguien en la línea. No cortes: quedate en el teléfono hasta que te lo digan.</div>'
+  + '<h3>Frases para decir ya</h3>'
+  + SOS.map(f =>
+      '<div class="sos-frase">'
+      + '<div class="en">'+esc(f.en)+'</div>'
+      + '<div class="pr">'+esc(f.pron)+'</div>'
+      + '<div class="es">'+esc(f.es)+'</div>'
+      + (Audio_.ok ? '<div class="audio-fila" style="margin:8px 0 0">'+botonAudio(f.en,"mini")+'</div>' : "")
+      + '<p class="frase-uso" style="margin-top:8px">'+esc(f.uso)+'</p>'
+      + '</div>').join("")
+  + '<div class="panel plano"><h3>Antes de que pase algo</h3>'
+    + '<p style="margin:0">Tené a mano, en el teléfono y en papel: tu alergia y tu medicación escritas en inglés, el teléfono del consulado argentino en Nueva York, una foto del pasaporte y el número de tu seguro de viaje. '
+    + 'El hospital para urgencias se llama <strong>emergency room</strong> (ER).</p></div>'
+  + '<button type="button" class="btn bloque" data-ir="inicio">Volver</button>';
+}
+
+/* ============================================================================
+   ARRANQUE
+   ========================================================================= */
+function refrescarPorAudio(){
+  if(vistaActual === "buscar"){ const i = $("q"); buscar(i ? i.value : ""); }
+  else if(vistaActual === "inicio") pintarInicio();
+  else if(vistaActual === "sos") pintarSOS();
+}
+
+document.addEventListener("keydown", (ev) => {
+  if(ev.key === "Escape" && (vistaActual === "buscar" || vistaActual === "sos")) ir(vistaPrevia || "inicio");
+});
+
+cargar();
+// Si pasó más de un día sin entrar, la racha se corta.
+if(E.ultima && diasEntre(E.ultima, hoyISO()) > 1){ E.racha = 0; guardar(); }
+Audio_.iniciar(refrescarPorAudio);
+ir("inicio", { sinFoco:true });
+</script>
+</body>
+</html>
