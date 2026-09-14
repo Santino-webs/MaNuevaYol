@@ -633,7 +633,8 @@ const CURSO = [
   ],
   dialogo:{ personaje:"Un empleado de un negocio", escena:"Entrás a un local a preguntar algo y el empleado te habla rapidísimo.",
     turnos:[
-      { ellos:{ en:"Hi! Areyoulookingforsomethingtoday?", pron:"JÁI! ar-iu-LU-kin-for-sam-zin-tu-DÉI", es:"¡Hola! ¿Buscás algo hoy?" },
+      { ellos:{ en:"Hi! Are you looking for something today?", pron:"JÁI! ar-iu-LU-kin-for-sam-zin-tu-DÉI", es:"¡Hola! ¿Buscás algo hoy?" },
+        nota:"Escrita se entiende, pero te la van a decir tan rápido que suena a una sola palabra larga: ariuLUkinforsamzintuDÉI. No es otro idioma, es la misma frase.",
         opciones:[
           { en:"I'm sorry, I don't understand", pron:"áim SÓ-ri, ái dont an-ders-TÁND", es:"Perdón, no entiendo", ok:true, reaccion:"Frena y baja un cambio: Oh, no problem! (¡Ningún problema!)" },
           { en:"Yes, please", pron:"IÉS pliis", es:"Sí, por favor", ok:false, reaccion:"Sigue hablando igual de rápido y ahora estás más perdido. Nunca digas que sí a algo que no entendiste." },
@@ -700,7 +701,8 @@ const CURSO = [
           { en:"Is it free?", pron:"is it FRÍI", es:"¿Es gratis?", ok:false, reaccion:"Se ríe fuerte: Nothing is free in New York, my friend." },
           { en:"What time is it?", pron:"uát TÁIM is it", es:"¿Qué hora es?", ok:false, reaccion:"Te mira la remera en la mano y te da la hora. Perdiste el turno." }
         ]},
-      { ellos:{ en:"Fifteen.", pron:"fif-TÍIN", es:"Quince.", nota:"¿Escuchaste fifTEEN o FIFty? La fuerza va al final: son 15." },
+      { ellos:{ en:"Fifteen.", pron:"fif-TÍIN", es:"Quince." },
+        nota:"¿Escuchaste fifTEEN o FIFty? La fuerza va al final: son 15.",
         opciones:[
           { en:"Fifteen or fifty?", pron:"fif-TÍIN or FÍF-ti", es:"¿Quince o cincuenta?", ok:true, reaccion:"Levanta un dedo y aclara: One five. Fifteen. Quince." },
           { en:"That's too expensive", pron:"dats tu eks-PÉN-siv", es:"Es demasiado caro", ok:false, reaccion:"Te ofrece otra más barata, pero todavía no sabés si te dijo 15 o 50." },
